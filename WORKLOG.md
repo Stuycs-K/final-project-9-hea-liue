@@ -1,7 +1,7 @@
 # Work Log
 
 ## GROUP MEMBER 1
-
+Alvin He
 ### date x
 
 info
@@ -12,7 +12,7 @@ info
 
 
 ## GROUP MEMBER 2
-
+Eric Liu
 ### date x
 
 info
