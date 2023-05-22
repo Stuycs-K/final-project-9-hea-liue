@@ -1,6 +1,7 @@
 public class Safe extends Squares{
   private String type = "Safe";
-  public class Safe 
+  public Safe(){
+  }
   public void hide(){
     
   }

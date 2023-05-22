@@ -1,4 +1,4 @@
-public class Square {
+public class Squares{
   private String type = "Squares";
   public Squares(){
   }
