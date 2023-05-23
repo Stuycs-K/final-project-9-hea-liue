@@ -1,8 +1,8 @@
 public class Bomb{
-  private int amount = 10;
+   int bomb = 10;
   
   public void bombPlacement(){
-    while(amount > 0){
+    while(bomb > 0){
       int randY = (int)(Math.random()*10)+1;
       int randX = (int)(Math.random()*10)+1;
       //have Board create an array and basically check board[x][y] == 0
