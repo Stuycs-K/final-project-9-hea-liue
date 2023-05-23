@@ -1,5 +1,6 @@
 public class Board{
-  int field[][];
+  int[][] displayField;
+  Squares[][] board;
   int bomb;
   int row;
   int col;
@@ -8,7 +9,7 @@ public class Board{
     bomb = numBombs;
     row = rows;
     col = cols;
-    field = new int[row][col];
+    displayField = new int[row][col];
   }
   
 }

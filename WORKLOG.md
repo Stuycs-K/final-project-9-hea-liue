@@ -2,13 +2,11 @@
 
 ## GROUP MEMBER 1
 Alvin He
-### date x
-
-info
-
+### date 5/23
+in class: created classes and started to put in methods according to the prototype
+at home: started filling in basic setup functions
 ### date y
-
-info
+in class: combined the bomb and safe class into one square class and created methods usable for just one class
 
 
 ## GROUP MEMBER 2

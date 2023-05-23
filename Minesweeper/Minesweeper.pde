@@ -7,20 +7,21 @@ private int rows;
 private int cols;
 
 void setup(){
-
   size(500,500);
   if (DIFFICULTY == 1){
     numBombs = 10;
     numFlags = 0;
     background(0);
-    grid();
+    printGrid();
     int rows = 8;
     int cols = 10;
   }
 }
+void draw(){
+}
 
 
-void grid(){
+void printGrid(){
   boolean x = true;
   stroke(255);
   for(int i = 0; i<=height; i+=SIZE){
