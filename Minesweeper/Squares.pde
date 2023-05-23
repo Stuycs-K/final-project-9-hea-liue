@@ -1,20 +1,26 @@
 public class Squares{
   private int bombsNear;
   private boolean isHidden;
-  private boolean isBomb;
+  private boolean isMine;
   
   public Squares(){
   }
   public void hide(){
     
   }
-  public boolean isBomb(){
-    return isBomb;
+  public boolean isMine(){
+    return isMine;
   }
   public void explode(){
-    if (isBomb = true && isHidden == false){
+    if (isMine = true && isHidden == false){
 //      endGame();
     }
+  }
+  public void setBomb(boolean isBomb){
+    if (isBomb == true)
+      isMine = true;
+    else  
+      isMine = false;
   }
 /*    public void bombPlacement(){
     while(bomb > 0){
