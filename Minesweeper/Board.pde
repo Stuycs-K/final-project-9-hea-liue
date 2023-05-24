@@ -9,22 +9,23 @@ public class Board{
     row = rows;
     col = cols;
     mines = 0;
-    float density = mines/(rows*cols); //uses the desired numMines to create a density
+    float density = numMines*1.0/(rows*cols); //uses the desired numMines to create a density
+    print(density);
     field = new int[row][col];
+    board = new Squares[row][col];
     for (int i = 0; i < cols; i ++){
       for (int j = 0; j < rows; j++){
         float rand = random(0,1);
         if (rand < density){
-          field[i][j] = -1;
-          board[i][j] = new Squares(true,0);
+          field[j][i] = -1; //bombspots are marked by -1
+          board[j][i] = new Squares(true,0);
           mines++; //the real number of mines won't be exactly numMines but close
         }
         else{
-          field[i][j] = 0;
+//          field[i][j] = 0; //safespots are marked by -1
         }
       }
     }
-    
   }
   public int minesAround(){
     return 0;
@@ -34,6 +35,9 @@ public class Board{
   }
   public int[][] getField(){
     return field;
+  }
+  public int getMines(){
+    return mines;
   }
   
 }
