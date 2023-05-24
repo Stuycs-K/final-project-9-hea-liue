@@ -23,13 +23,22 @@ void setup(){
       for (int j = 0; j < field[0].length; j++)
         print(field[i][j]);
     }
+    printGrid();
   }
 }
 void draw(){
   if (gameEnd == false){
-   printGrid();
+
+  }
+}
+void keyPressed(){
+  if (keyCode == 'R'){
    makeBoard(field);
   }
+}
+void keyReleased(){
+  if (keyCode == 'R')
+    printGrid();
 }
 
 
