@@ -1,9 +1,9 @@
 public class Board{
-  int[][] field;
-  Squares[][] board;
-  int mines;
-  int row;
-  int col;
+  private int[][] field;
+  private Squares[][] board;
+  private int mines;
+  private int row;
+  private int col;
   
   public Board(int numMines, int rows, int cols){
     row = rows;
@@ -16,6 +16,7 @@ public class Board{
         float rand = random(0,1);
         if (rand < density){
           field[i][j] = -1;
+          board[i][j] = new Squares(true,0);
           mines++; //the real number of mines won't be exactly numMines but close
         }
         else{
@@ -23,6 +24,16 @@ public class Board{
         }
       }
     }
+    
+  }
+  public int minesAround(){
+    return 0;
+  }
+  public Squares[][] getBoard(){
+    return board;
+  }
+  public int[][] getField(){
+    return field;
   }
   
 }

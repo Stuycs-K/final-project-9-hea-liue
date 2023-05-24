@@ -50,3 +50,6 @@ void printGrid(int r, int c){
     }
   }
 }
+void makeBoard(int){
+  
+}

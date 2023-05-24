@@ -3,7 +3,13 @@ public class Squares{
   private boolean isHidden;
   private boolean isMine;
   
-  public Squares(){
+  public Squares(boolean isMine, int bombsNear){
+    if (isMine == true){
+      this.isMine = isMine;
+    }
+    else {
+      this.bombsNear = bombsNear;
+    }
   }
   public void hide(){
     
