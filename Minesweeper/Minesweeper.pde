@@ -33,7 +33,7 @@ void draw(){
 }
 void keyPressed(){
   if (keyCode == 'R'){
-   makeBoard(field);
+   revealMines(field);
   }
 }
 void keyReleased(){
@@ -66,7 +66,7 @@ void printGrid(){
     }
   }
 }
-void makeBoard(int[][] field){
+void revealMines(int[][] field){
   float radius = SIZE/2.0;
   for(int i = 0; i<rows; i++){
     for(int j = 0; j<cols; j++){
