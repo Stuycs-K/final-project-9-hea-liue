@@ -9,6 +9,7 @@ private boolean gameEnd;
 private Board board;
 private int[][] field;
 private int[][] flagsPlaced;
+private boolean reveal;
 
 void setup(){
   textSize(30);
@@ -19,33 +20,40 @@ void setup(){
     numFlags = numMines;
     rows = 8;
     cols = 10;
+    reveal = false;
     flagsPlaced = new int[rows][cols];
     board = new Board(numMines, rows, cols);
     field = board.getField();
-
     printGrid();
   }
 }
 void draw(){
-  if (gameEnd == false){
-
+  if (gameEnd == false  && reveal == false){
+    printGrid();
+    printBoard();
   }
 }
+
 void keyPressed(){
-  if (keyCode == 'R'){
+  if (keyCode == 'R'){ //R button reveals the bomb placements on the board
    revealMines();
+   reveal = true;
   }
 }
 void keyReleased(){
-  if (keyCode == 'R')
+  if (keyCode == 'R'){
+    reveal = false;
     printGrid();
+    printBoard();
+  }
 }
+
 void mousePressed(){
   int x = mouseX;
   int y = mouseY; 
   if (gameEnd == false){
     if (mouseButton == LEFT){
-    //  dig();
+    //  dig(); // to be implemented
     }
     if (mouseButton == RIGHT){
       flag(x,y);
@@ -53,15 +61,21 @@ void mousePressed(){
   }
 }
 void flag(int x, int y){
-//  if (isValid(x,y)){
-    stroke(255);
-    fill(255,0,0);
-    float radius = SIZE/2;
-    circle(x/SIZE*SIZE + radius, y/SIZE*SIZE + radius, radius);
-//  }
+  if (isValid(x,y) && numFlags !=0){
+    int i = (y-2*SIZE)/SIZE;
+    int j = x/SIZE;
+    if (flagsPlaced[i][j] == -1){
+      flagsPlaced[i][j] = 0;
+      numFlags++;
+    }
+    else{
+      flagsPlaced[(y-2*SIZE)/SIZE][x/SIZE] = -1;
+      numFlags--;
+    }
+  }
 }
 boolean isValid(int x, int y){
-  return (y < 2*SIZE || y > (rows+2)*SIZE || x < 0 || x > cols*SIZE); //checks if the coordinate is within the minefield
+  return !(y < 2*SIZE || y > (rows+2)*SIZE || x < 0 || x > cols*SIZE); //checks if the coordinate is within the minefield
 }
 
 void printGrid(){
@@ -74,7 +88,7 @@ void printGrid(){
       }
       else{
         stroke(255);
-        print(i+o + " " );
+//          print(i+o + " " );
         if((i+o) % 100 != 0){
           fill(#85E357);
         }
@@ -86,7 +100,6 @@ void printGrid(){
     }
   }
   stroke(0);
-  text("Remaining Flags: "+numFlags + "/" + numMines,15,40);
 }
 void printBoard(){
   float radius = SIZE/2.0;
@@ -100,6 +113,7 @@ void printBoard(){
       }
     }
   }
+  text("Remaining Flags: "+numFlags + "/" + numMines,15,40);
 }
 
 
