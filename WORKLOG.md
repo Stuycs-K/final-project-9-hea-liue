@@ -12,7 +12,8 @@ at home: initialized a board with randomly placed bombs and began working on squ
 in class: got a method working that randomly places bombs and shows reveal the bomb locations
 at home: made the revealMines method toggle-able on the keybind R. it now reveals the mines when you hold R,
         fixed checkerboard Board pattern
-
+### date 5/25
+in class: fixed reveal mines, worked on a flag method, and began printBoard();
 
 ## GROUP MEMBER 2
 Eric Liu
