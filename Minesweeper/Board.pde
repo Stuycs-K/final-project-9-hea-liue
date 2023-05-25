@@ -27,6 +27,27 @@ public class Board{
       }
     }
   }
+  public void setNeutral(){
+    for(int i = 0; i<field.length; i++){
+      for(int o = 0; o<field[0].length; o++){
+        if(field[i][o] == 0){
+          field[i][o] = sumAround(i, o, field);
+        }
+      }
+    }
+  }
+  public int sumAround(int x, int y, int[][] grid){
+    int sum = 0;
+    if(x-1 > -1 && y-1 > -1 && grid[x-1][y-1] == -1) sum++;
+    if(y-1 > -1 && grid[x][y-1] == -1) sum++;
+    if(x+1 < grid.length && y-1 > -1 && grid[x+1][y-1] == -1) sum++;
+    if(x-1 > -1 && grid[x-1][y] == -1) sum++;
+    if(x+1 < grid.length && grid[x+1][y] == -1) sum++;
+    if(x-1 > -1 && y+1 < grid[0].length && grid[x-1][y+1] == -1) sum++;
+    if(y+1 > grid[0].length && grid[x][y+1] == -1) sum++;
+    if(x+1 > grid.length && y+1 > grid[0].length && grid[x+1][y+1] == -1) sum++;
+    return sum;
+  }
   public int minesAround(){
     return 0;
   }
