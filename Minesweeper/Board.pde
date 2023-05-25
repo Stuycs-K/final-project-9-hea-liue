@@ -10,7 +10,7 @@ public class Board{
     col = cols;
     mines = 0;
     float density = numMines*1.0/(rows*cols); //uses the desired numMines to create a density
-    print(density);
+//    print(density);
     field = new int[row][col];
     board = new Squares[row][col];
     for (int i = 0; i < cols; i ++){

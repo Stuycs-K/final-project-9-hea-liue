@@ -19,10 +19,10 @@ void setup(){
     cols = 10;
     board = new Board(numMines, rows, cols);
     field = board.getField();
-    for (int i = 0; i < field.length; i ++){
+/*    for (int i = 0; i < field.length; i ++){
       for (int j = 0; j < field[0].length; j++)
         print(field[i][j]);
-    }
+    } */
     printGrid();
   }
 }
@@ -43,7 +43,6 @@ void keyReleased(){
 
 
 void printGrid(){
-  boolean x = true;
   stroke(255);
   for(int i = 0; i<SIZE*(rows+2); i+=SIZE){
     for(int o = 0; o<SIZE*cols; o+=SIZE){
@@ -53,13 +52,12 @@ void printGrid(){
       }
       else{
         stroke(255);
-        if(x){
+        print(i+o + " " );
+        if((i+o) % 100 != 0){
           fill(#85E357);
-          x = false;
         }
         else{
           fill(#71C14A);
-          x = true;
         }
       }
       square(o,i,SIZE);
