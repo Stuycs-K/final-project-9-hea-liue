@@ -137,7 +137,7 @@ void revealMines(){
 void revealNeutral(int[][]field){
   for(int i = 0; i<rows; i++){
     for(int j = 0; j<cols; j++){
-      if(field[i][j] != -1){
+      if(field[i][j] > 0){
         fill(0);
         textSize(40);
         text(field[i][j], j*50+15, (i+3)*50-10);
