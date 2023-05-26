@@ -38,10 +38,12 @@ void keyPressed(){
   if (keyCode == 'R'){ //R button reveals the bomb placements on the board
    revealMines();
    reveal = true;
+   text("Reveal Mines: ON",15,70);
   }
   if (keyCode == 'E'){
    revealNeutral(field);
    reveal = true;
+   text("Reveal Mines: ON",15,50);
   }
 }
 void keyReleased(){
@@ -65,14 +67,14 @@ void mousePressed(){
   }
 }
 void flag(int x, int y){
-  if (isValid(x,y) && numFlags !=0){
-    int i = (y-2*SIZE)/SIZE;
-    int j = x/SIZE;
+  int i = (y-2*SIZE)/SIZE;
+  int j = x/SIZE;
+  if (isValid(x,y)){
     if (flagsPlaced[i][j] == -1){
       flagsPlaced[i][j] = 0;
       numFlags++;
     }
-    else{
+    else if (numFlags !=0){
       flagsPlaced[(y-2*SIZE)/SIZE][x/SIZE] = -1;
       numFlags--;
     }
@@ -91,13 +93,13 @@ void printGrid(){
         fill(#4C9A2A);
       }
       else{
-        stroke(255);
-//          print(i+o + " " );
         if((i+o) % 100 != 0){
-          fill(#85E357);
+          stroke(#C1F376);
+          fill(#C1F376);
         }
         else{
-          fill(#71C14A);
+          stroke(#A1DF50);
+          fill(#A1DF50);
         }
       }
       square(o,i,SIZE);
@@ -117,6 +119,9 @@ void printBoard(){
       }
     }
   }
+  textSize(30);
+  float shift = 255.0/(numMines/2);
+  fill(510-shift*numFlags,0+shift*numFlags,0);
   text("Remaining Flags: "+numFlags + "/" + numMines,15,40);
 }
 
