@@ -35,17 +35,19 @@ void draw(){
 }
 
 void keyPressed(){
-  if (keyCode == 'R'){ //R button reveals the bomb placements on the board
-   revealMines();
-   reveal = true;
-   textSize(25);
-   text("Reveal Mines: ON",15,60);
-  }
-  if (keyCode == 'E'){
-   revealNeutral();
-   reveal = true;
-   textSize(25);
-   text("Reveal Numbers: ON",15,90);
+  if (gameEnd == false){
+    if (keyCode == 'R'){ //R button reveals the bomb placements on the board
+     revealMines();
+     reveal = true;
+     textSize(25);
+     text("Reveal Mines: ON",15,60);
+    }
+    if (keyCode == 'E'){
+     revealNeutral();
+     reveal = true;
+     textSize(25);
+     text("Reveal Numbers: ON",15,90);
+    }
   }
 }
 void keyReleased(){
@@ -61,12 +63,26 @@ void mousePressed(){
   int y = mouseY; 
   if (gameEnd == false){
     if (mouseButton == LEFT){
-    //  dig(); // to be implemented
+      dig(x,y);
     }
     if (mouseButton == RIGHT){
       flag(x,y);
     }
   }
+}
+void dig(int x, int y){
+  int i = (y-2*SIZE)/SIZE;
+  int j = x/SIZE;
+  if (isValid(x,y)){
+    if (field[i][j] == 0){
+      board.reveal(i,j);
+      field = board.getField();
+    }
+    else if (field[i][j] == -1){
+      endGame(); // to be implemented
+    }
+  }
+  
 }
 void flag(int x, int y){
   int i = (y-2*SIZE)/SIZE;
@@ -85,7 +101,12 @@ void flag(int x, int y){
 boolean isValid(int x, int y){
   return !(y < 2*SIZE || y > (rows+2)*SIZE || x < 0 || x > cols*SIZE); //checks if the coordinate is within the minefield
 }
-
+void endGame(){
+//  gameEnd = true;
+  textSize(50);
+  fill(255,0,0);
+  text("BOMB", 500,500);
+}
 void printGrid(){
   stroke(255);
   for(int i = 0; i<SIZE*(rows+2); i+=SIZE){
@@ -115,9 +136,29 @@ void printBoard(){
   for(int i = 0; i<rows; i++){
     for(int j = 0; j<cols; j++){
       if (flagsPlaced[i][j] == -1){  // places flags in track
-        stroke(255);
+        stroke(255,0,0);
         fill(255,0,0);
         circle(j*SIZE+radius, (i+2)*SIZE+radius, radius);
+      }
+      int bombsNear = field[i][j];
+      if (bombsNear > 0){
+        stroke(#DBC8AC);
+        fill(#DBC8AC);
+        square(j*SIZE,(i+2)*SIZE,SIZE);
+        textSize(40);
+        if (bombsNear == 3){
+          fill(255,0,0);
+        }
+        else if (bombsNear == 2){
+          fill(255,255,0);
+        }
+        else if (bombsNear == 1){
+          fill(0,255,0);
+        }
+        else {
+          fill(255,0,255);
+        }
+        text(bombsNear, j*50+15, (i+3)*50-10);
       }
     }
   }
@@ -133,7 +174,7 @@ void revealMines(){
   for(int i = 0; i<rows; i++){
     for(int j = 0; j<cols; j++){
       if (field[i][j] == -1){
-        stroke(255);
+        stroke(0);
         fill(0);
         circle(j*SIZE+radius, (i+2)*SIZE+radius, radius);
       }

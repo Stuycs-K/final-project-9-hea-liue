@@ -25,6 +25,9 @@ public class Board{
       }
     }
   }
+  public void reveal(int row, int col){
+    field[row][col] = board[row][col].getBombsNear();
+  }
   public void sumSquare(){
     for(int i = 0; i<field.length; i++){
       for(int o = 0; o<field[0].length; o++){

@@ -16,7 +16,8 @@ fixed checkerboard Board pattern
 in class: fixed reveal mines, worked on a flag method, and began printBoard();
 at home: got the flag system to fully work with the reveal method. added a flag counter and removes flag when right clicks existing flags;
 ### date 5/26
-in class: got colors shift working for the flag counter, fixed the flag counter protocol when flagsLeft = 0;
+in class: got colors shift working for the flag counter, fixed the flag counter protocol when flagsLeft = 0, started working on digSquare();
+at home: got dig working for one square and started an endGame method;
 
 
 ## GROUP MEMBER 2
