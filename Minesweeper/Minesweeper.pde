@@ -38,12 +38,14 @@ void keyPressed(){
   if (keyCode == 'R'){ //R button reveals the bomb placements on the board
    revealMines();
    reveal = true;
-   text("Reveal Mines: ON",15,70);
+   textSize(25);
+   text("Reveal Mines: ON",15,60);
   }
   if (keyCode == 'E'){
-   revealNeutral(field);
+   revealNeutral();
    reveal = true;
-   text("Reveal Mines: ON",15,50);
+   textSize(25);
+   text("Reveal Numbers: ON",15,90);
   }
 }
 void keyReleased(){
@@ -119,10 +121,10 @@ void printBoard(){
       }
     }
   }
-  textSize(30);
+  textSize(25);
   float shift = 255.0/(numMines/2);
   fill(510-shift*numFlags,0+shift*numFlags,0);
-  text("Remaining Flags: "+numFlags + "/" + numMines,15,40);
+  text("Remaining Flags: "+numFlags + "/" + numMines,15,30);
 }
 
 
@@ -139,13 +141,15 @@ void revealMines(){
   }
 }
 
-void revealNeutral(int[][]field){
+void revealNeutral(){
   for(int i = 0; i<rows; i++){
     for(int j = 0; j<cols; j++){
-      if(field[i][j] > 0){
-        fill(0);
-        textSize(40);
-        text(field[i][j], j*50+15, (i+3)*50-10);
+      if(!(board.getBoard()[i][j].getIsMine())){
+        if(board.getBoard()[i][j].getBombsNear() != 0){
+          fill(0);
+          textSize(40);
+          text(board.getBoard()[i][j].getBombsNear(), j*50+15, (i+3)*50-10);
+        }
       }
     }
   }

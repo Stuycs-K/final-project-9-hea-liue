@@ -29,8 +29,7 @@ public class Board{
     for(int i = 0; i<field.length; i++){
       for(int o = 0; o<field[0].length; o++){
         if(field[i][o] == 0){
-          field[i][o] = checkSquares(i, o);
-          board[i][o] = new Squares(false,field[i][o]);
+          board[i][o] = new Squares(false,checkSquares(i, o));
         }
       }
     }

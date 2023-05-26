@@ -28,5 +28,12 @@ public class Squares{
     else  
       isMine = false;
   }
+  public boolean getIsMine(){
+    return isMine;
+  }
+  public int getBombsNear(){
+    return bombsNear;
+  }
+  
   
 }
