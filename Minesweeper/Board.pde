@@ -8,7 +8,13 @@ public class Board{
   public Board(int numMines, int rows, int cols){
     row = rows;
     col = cols;
+<<<<<<< HEAD
     mines = numMines;
+=======
+    mines = 0;
+    float density = numMines*1.0/(rows*cols); //uses the desired numMines to create a density
+//    print(density);
+>>>>>>> refs/remotes/origin/main
     field = new int[row][col];
     board = new Squares[row][col];
     setBomb();

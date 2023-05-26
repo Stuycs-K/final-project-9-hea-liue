@@ -4,14 +4,24 @@
 Alvin He
 ### date 5/24
 in class: created classes and started to put in methods according to the prototype
+
 at home: started filling in basic setup functions
+
 ### date 5/23
 in class: combined the bomb and safe class into one square class and created methods usable for just one class
+
 at home: initialized a board with randomly placed bombs and began working on squares bomb methods
+
 ### date 5/25
 in class: got a method working that randomly places bombs and shows reveal the bomb locations
-at home: made the revealMines method toggle-able on the keybind R. it now reveals the mines when you hold R
 
+at home: made the revealMines method toggle-able on the keybind R. it now reveals the mines when you hold R,
+fixed checkerboard Board pattern
+
+### date 5/25
+in class: fixed reveal mines, worked on a flag method, and began printBoard();
+
+at home: got the flag system to fully work with the reveal method. added a flag counter and removes flag when right clicks existing flags;
 
 ## GROUP MEMBER 2
 Eric Liu
