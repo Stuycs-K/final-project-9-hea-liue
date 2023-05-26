@@ -70,6 +70,9 @@ void mousePressed(){
     }
   }
 }
+void carve(int x, int y){ // when dug square has 0 bombs near 
+  //should implement the maze spread method
+}
 void dig(int x, int y){
   int i = (y-2*SIZE)/SIZE;
   int j = x/SIZE;
@@ -153,7 +156,7 @@ void printBoard(){
           fill(255,255,0);
         }
         else if (bombsNear == 1){
-          fill(0,255,0);
+          fill(#4C9A2A);
         }
         else {
           fill(255,0,255);
@@ -176,7 +179,7 @@ void revealMines(){
       if (field[i][j] == -1){
         stroke(0);
         fill(0);
-        circle(j*SIZE+radius, (i+2)*SIZE+radius, radius);
+        circle(j*SIZE+radius, (i+2)*SIZE+radius, radius);  //Press 'R' to reveal bombs on the board
       }
     }
   }
@@ -189,7 +192,7 @@ void revealNeutral(){
         if(board.getBoard()[i][j].getBombsNear() != 0){
           fill(0);
           textSize(40);
-          text(board.getBoard()[i][j].getBombsNear(), j*50+15, (i+3)*50-10);
+          text(board.getBoard()[i][j].getBombsNear(), j*50+15, (i+3)*50-10); //Press 'E' to reveal safe square w/ bombs nearby
         }
       }
     }
