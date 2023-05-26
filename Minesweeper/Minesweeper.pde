@@ -35,31 +35,21 @@ void draw(){
 }
 
 void keyPressed(){
-<<<<<<< HEAD
-  if (keyCode == 'R'){
-   revealMines(field);
-   revealNeutral(field);
-=======
   if (keyCode == 'R'){ //R button reveals the bomb placements on the board
    revealMines();
    reveal = true;
->>>>>>> refs/remotes/origin/main
   }
-  /*if (keyCode == 'E'){
-    revealNeutral(field);
-  }*/
+  if (keyCode == 'E'){
+   revealNeutral(field);
+   reveal = true;
+  }
 }
 void keyReleased(){
-<<<<<<< HEAD
-  if (keyCode == 'R') printGrid();
-  //if (keyCode == 'E') printGrid();
-=======
-  if (keyCode == 'R'){
+  if (keyCode == 'R' || keyCode == 'E'){
     reveal = false;
     printGrid();
     printBoard();
   }
->>>>>>> refs/remotes/origin/main
 }
 
 void mousePressed(){
@@ -136,12 +126,8 @@ void revealMines(){
   for(int i = 0; i<rows; i++){
     for(int j = 0; j<cols; j++){
       if (field[i][j] == -1){
-<<<<<<< HEAD
-        fill(255,0,0);
-=======
         stroke(255);
         fill(0);
->>>>>>> refs/remotes/origin/main
         circle(j*SIZE+radius, (i+2)*SIZE+radius, radius);
       }
     }
