@@ -34,11 +34,15 @@ void draw(){
 void keyPressed(){
   if (keyCode == 'R'){
    revealMines(field);
+   revealNeutral(field);
   }
+  /*if (keyCode == 'E'){
+    revealNeutral(field);
+  }*/
 }
 void keyReleased(){
-  if (keyCode == 'R')
-    printGrid();
+  if (keyCode == 'R') printGrid();
+  //if (keyCode == 'E') printGrid();
 }
 
 
@@ -71,7 +75,20 @@ void revealMines(int[][] field){
   for(int i = 0; i<rows; i++){
     for(int j = 0; j<cols; j++){
       if (field[i][j] == -1){
+        fill(255,0,0);
         circle(j*SIZE+radius, (i+2)*SIZE+radius, radius);
+      }
+    }
+  }
+}
+
+void revealNeutral(int[][]field){
+  for(int i = 0; i<rows; i++){
+    for(int j = 0; j<cols; j++){
+      if(field[i][j] != -1){
+        fill(0);
+        textSize(40);
+        text(field[i][j], j*50+15, (i+3)*50-10);
       }
     }
   }
