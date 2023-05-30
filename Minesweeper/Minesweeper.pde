@@ -10,12 +10,14 @@ private Board board;
 private int[][] field;
 private int[][] flagsPlaced;
 private boolean reveal;
+private int gameNumber = 0;
 
 void setup(){
   textSize(30);
   size(1000,1000);
   gameEnd = false;
   if (DIFFICULTY == 1){
+    gameNumber++;
     numMines = 10;
     numFlags = numMines;
     rows = 8;
@@ -33,7 +35,6 @@ void draw(){
     printBoard();
   }
 }
-
 void keyPressed(){
   if (gameEnd == false){
     if (keyCode == 'R'){ //R button reveals the bomb placements on the board
@@ -49,12 +50,19 @@ void keyPressed(){
      text("Reveal Numbers: ON",15,90);
     }
   }
+  if (gameEnd == true){
+    if (keyCode == ENTER){
+      setup();
+    }
+  }
 }
 void keyReleased(){
-  if (keyCode == 'R' || keyCode == 'E'){
-    reveal = false;
-    printGrid();
-    printBoard();
+  if (gameEnd == false){
+    if (keyCode == 'R' || keyCode == 'E'){
+      reveal = false;
+      printGrid();
+      printBoard();
+    }
   }
 }
 
@@ -83,6 +91,9 @@ void dig(int x, int y){
     }
     else if (field[i][j] == -1){
       endGame(); // to be implemented
+      fill(0,0,255);
+      stroke(255);
+      circle(j*SIZE+SIZE/2, (i+2)*SIZE+SIZE/2, SIZE/2);
     }
   }
   
@@ -105,13 +116,22 @@ boolean isValid(int x, int y){
   return !(y < 2*SIZE || y > (rows+2)*SIZE || x < 0 || x > cols*SIZE); //checks if the coordinate is within the minefield
 }
 void endGame(){
-//  gameEnd = true;
-  textSize(50);
+  gameEnd = true;
+  printGrid();
+  printBoard();
+  revealMines();
+  textSize(SIZE);
   fill(255,0,0);
-  text("BOMB", 500,500);
+  text("YOU LOSE", SIZE/2,SIZE);
+  textSize(SIZE/2);
+  fill(0);
+  text("press 'enter' to restart", SIZE/2,SIZE*1.75);
 }
 void printGrid(){
   stroke(255);
+  textSize(20);
+  fill(0);
+  text("Game#: " +gameNumber, cols-1*SIZE, SIZE);
   for(int i = 0; i<SIZE*(rows+2); i+=SIZE){
     for(int o = 0; o<SIZE*cols; o+=SIZE){
       if (i == 0 || i == SIZE){
@@ -136,6 +156,7 @@ void printGrid(){
 void printBoard(){
   float radius = SIZE/2.0;
   stroke(255);
+  text("Game#" +gameNumber, (cols-2)*SIZE, SIZE/2);
   for(int i = 0; i<rows; i++){
     for(int j = 0; j<cols; j++){
       if (flagsPlaced[i][j] == -1){  // places flags in track
@@ -168,6 +189,9 @@ void printBoard(){
   textSize(25);
   float shift = 255.0/(numMines/2);
   fill(510-shift*numFlags,0+shift*numFlags,0);
+  if (gameEnd == true){
+    fill(#4C9A2A);
+  }
   text("Remaining Flags: "+numFlags + "/" + numMines,15,30);
 }
 
@@ -179,6 +203,9 @@ void revealMines(){
       if (field[i][j] == -1){
         stroke(0);
         fill(0);
+        if (gameEnd == true){
+          fill(150,0,150);
+        }
         circle(j*SIZE+radius, (i+2)*SIZE+radius, radius);  //Press 'R' to reveal bombs on the board
       }
     }
