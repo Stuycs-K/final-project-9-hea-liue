@@ -20,7 +20,7 @@ in class: got colors shift working for the flag counter, fixed the flag counter 
 at home: got dig working for one square and started an endGame method; set up methods carve methods and outlined how it should be implemented;
 ### date 5/30
 in class: discussed with Eric how to implement carve and helped him implement in on his computer;
-at home: worked on endGame() method and allowed for a reset game after losing/winning by pressing 'enter';
+at home: worked on endGame() method and allowed for a reset game after losing/winning by pressing 'enter', implemented the changes we made in class;
 
 ## GROUP MEMBER 2
 Eric Liu

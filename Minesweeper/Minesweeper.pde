@@ -1,6 +1,7 @@
 private static final int DIFFICULTY = 1; // 1 = easy, 2 = medium
 private static final int SIZE = 50;
 private int timePassed;
+private int turns;
 private int numMines;
 private int numFlags;
 private int rows;
@@ -16,6 +17,7 @@ void setup(){
   textSize(30);
   size(1000,1000);
   gameEnd = false;
+  turns = 0;
   if (DIFFICULTY == 1){
     gameNumber++;
     numMines = 10;
@@ -33,8 +35,12 @@ void draw(){
   if (gameEnd == false  && reveal == false){
     printGrid();
     printBoard();
+//    if (board.getSquaresRevealed() + numMines == rows*cols){
+//      endGame();
+//    }
   }
 }
+
 void keyPressed(){
   if (gameEnd == false){
     if (keyCode == 'R'){ //R button reveals the bomb placements on the board
@@ -69,9 +75,14 @@ void keyReleased(){
 void mousePressed(){
   int x = mouseX;
   int y = mouseY; 
-  if (gameEnd == false){
+  if (gameEnd == false && isValid(x,y)){
     if (mouseButton == LEFT){
-      dig(x,y);
+      if(board.getBoard()[(y-2*SIZE)/SIZE][x/SIZE].getBombsNear() == 0 && !(board.getBoard()[(y-2*SIZE)/SIZE][x/SIZE].getIsMine())){
+        carve(x,y);
+      }
+      else{
+        dig(x,y);
+      }
     }
     if (mouseButton == RIGHT){
       flag(x,y);
@@ -79,6 +90,102 @@ void mousePressed(){
   }
 }
 void carve(int x, int y){ // when dug square has 0 bombs near 
+  int i = (y-2*SIZE)/SIZE;
+  int j = x/SIZE;
+    if(board.getBoard()[i][j].getBombsNear() == 0){
+      stroke(#DBC8AC);
+      fill(#DBC8AC);
+      square(j*SIZE,(i+2)*SIZE,SIZE);
+      if(i > 0 && j > 0){ //1,1
+        if(board.getBoard()[i-1][j-1].getIsHidden() == true){
+          if(board.getBoard()[i-1][j-1].getBombsNear() != 0){
+            dig(x-SIZE,y-SIZE);
+          }
+          else if (field[i-1][j-1] > 0){
+             field[i-1][j-1] = -2;
+             carve(x=SIZE,y-SIZE);
+          } 
+        }
+      }  
+      if(i > 0){ //1,2
+        if(board.getBoard()[i-1][j].getIsHidden() == true){
+          if(board.getBoard()[i-1][j].getBombsNear() != 0){
+            dig(x,y-SIZE);
+          }
+          else if (field[i-1][j] > 0){
+             field[i-1][j] = -2;
+             carve(x,y-SIZE);
+          } 
+        }
+      }  
+      if(i > 0 && j < cols-1){ //1,3
+        if(board.getBoard()[i-1][j+1].getIsHidden() == true){
+          if(board.getBoard()[i-1][j+1].getBombsNear() != 0){
+            dig(x+SIZE,y-SIZE);
+          }
+          else if (field[i-1][j+1] > 0){
+            field[i-1][j+1] = -2;
+            carve(x+SIZE,y-SIZE);
+          }
+        }
+      }
+      if(j > 0){//2,1
+        if(board.getBoard()[i][j-1].getIsHidden() == true){
+          if(board.getBoard()[i][j-1].getBombsNear() != 0){
+            dig(x-SIZE,y);
+          }
+          else if (field[i][j-1] > 0){
+            field[i][j-1] = -2;
+            carve(x-SIZE,y);
+          }
+        }
+      }      
+      if(j < cols-1){//2,3
+        if(board.getBoard()[i][j+1].getIsHidden() == true){
+          if(board.getBoard()[i][j+1].getBombsNear() != 0){
+            dig(x+SIZE,y);
+          }
+          else if (field[i][j+1] > 0){
+            field[i][j+1] = -2;
+            carve(x+SIZE,y);
+          }
+        }
+      }
+      if(i < rows-1 && j > 0){ //3,1
+        if(board.getBoard()[i+1][j-1].getIsHidden() == true){
+          if(board.getBoard()[i+1][j-1].getBombsNear() != 0){
+            dig(x-SIZE,y+SIZE);
+          }
+          else if (field[i+1][j-1] > 0){
+            field[i+1][j-1] = -2;
+            carve(x-SIZE,y+SIZE);
+          }
+        }
+      }
+      if(i < rows-1){ //3,2
+        if(board.getBoard()[i+1][j].getIsHidden() == true){
+          if(board.getBoard()[i+1][j].getBombsNear() != 0){
+            dig(x,y+SIZE);
+          }
+          else if (field[i+1][j] > 0){
+            field[i+1][j] = -2;
+            carve(x,y+SIZE);
+          }
+        }
+      }
+      if(i < rows-1 && j < cols-1){ //3,3
+        if(board.getBoard()[i+1][j+1].getIsHidden() == true){
+          if(board.getBoard()[i+1][j+1].getBombsNear() != 0){
+            dig(x+SIZE,y+SIZE);
+          }
+          else if (field[i+1][j+1] > 0){
+            field[i+1][j+1] = -2;
+            carve(x+SIZE,y+SIZE);
+          }
+        }
+      }
+    }
+  
   //should implement the maze spread method
 }
 void dig(int x, int y){
@@ -112,9 +219,11 @@ void flag(int x, int y){
     }
   }
 }
+
 boolean isValid(int x, int y){
   return !(y < 2*SIZE || y > (rows+2)*SIZE || x < 0 || x > cols*SIZE); //checks if the coordinate is within the minefield
 }
+
 void endGame(){
   gameEnd = true;
   printGrid();
@@ -129,9 +238,6 @@ void endGame(){
 }
 void printGrid(){
   stroke(255);
-  textSize(20);
-  fill(0);
-  text("Game#: " +gameNumber, cols-1*SIZE, SIZE);
   for(int i = 0; i<SIZE*(rows+2); i+=SIZE){
     for(int o = 0; o<SIZE*cols; o+=SIZE){
       if (i == 0 || i == SIZE){
@@ -183,6 +289,11 @@ void printBoard(){
           fill(255,0,255);
         }
         text(bombsNear, j*50+15, (i+3)*50-10);
+      }
+      else if (bombsNear == -2){
+        stroke(#DBC8AC);
+        fill(#DBC8AC);
+        square(j*SIZE,(i+2)*SIZE,SIZE);
       }
     }
   }

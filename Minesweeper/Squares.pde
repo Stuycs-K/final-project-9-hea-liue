@@ -10,6 +10,7 @@ public class Squares{
     else {
       this.bombsNear = bombsNear;
     }
+    isHidden = true;
   }
   public void hide(){
     
@@ -28,12 +29,16 @@ public class Squares{
     else  
       isMine = false;
   }
+  public void reveal(){
+    isHidden = false;
+  }
   public boolean getIsMine(){
     return isMine;
   }
   public int getBombsNear(){
     return bombsNear;
   }
-  
-  
+  public boolean getIsHidden(){
+    return isHidden;
+  }
 }

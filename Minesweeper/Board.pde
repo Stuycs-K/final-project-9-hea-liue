@@ -4,6 +4,7 @@ public class Board{
   private int mines;
   private int row;
   private int col;
+  private int squaresRevealed;
   
   public Board(int numMines, int rows, int cols){
     row = rows;
@@ -27,6 +28,8 @@ public class Board{
   }
   public void reveal(int row, int col){
     field[row][col] = board[row][col].getBombsNear();
+    board[row][col].reveal();
+    squaresRevealed++;
   }
   public void sumSquare(){
     for(int i = 0; i<field.length; i++){
@@ -65,5 +68,7 @@ public class Board{
   public int getMines(){
     return mines;
   }
-  
+  public int getSquaresRevealed(){
+    return squaresRevealed;
+  }
 }
