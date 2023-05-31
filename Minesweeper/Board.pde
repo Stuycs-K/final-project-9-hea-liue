@@ -5,13 +5,17 @@ public class Board{
   private int row;
   private int col;
   private int squaresRevealed;
+  private int startX;
+  private int startY;
   
-  public Board(int numMines, int rows, int cols){
+  public Board(int numMines, int rows, int cols, int y, int x){
     row = rows;
     col = cols;
     mines = numMines;
     field = new int[row][col];
     board = new Squares[row][col];
+    startX = x;
+    startY = y;
     setBomb();
     sumSquare();
   }
@@ -19,12 +23,23 @@ public class Board{
     while(mines > 0){
       int xran = (int)(random(0,col));
       int yran = (int)(random(0,row));
-      if(field[yran][xran] == 0){
+      if(field[yran][xran] == 0 && isValid(xran,yran)){
         field[yran][xran] = -1;
         board[yran][xran] = new Squares(true,0);
         mines--;
       }
     }
+    print("bombs placed");
+  }
+  public boolean isValid(int xran, int yran){
+    for (int i = -1; i<=1; i++){
+      for (int j = -1; j<=1; j++){
+        if (xran == startX+j && yran == startY+i){
+          return false;
+        }
+      }
+    }
+    return true;
   }
   public void reveal(int row, int col){
     int bombsNear = board[row][col].getBombsNear();

@@ -28,13 +28,11 @@ void setup(){
     reveal = false;
     firstTurn = true;
     flagsPlaced = new int[rows][cols];
-    board = new Board(numMines, rows, cols);
-    field = board.getField();
     printGrid();
   }
 }
 void draw(){
-  if (gameEnd == false  && reveal == false){
+  if (firstTurn == false && gameEnd == false  && reveal == false){
     printGrid();
     printBoard();
     if (board.getSquaresRevealed() + numMines == rows*cols){
@@ -44,7 +42,7 @@ void draw(){
 }
 
 void keyPressed(){
-  if (gameEnd == false){
+  if (gameEnd == false && firstTurn == false){
     if (keyCode == 'R'){ //R button reveals the bomb placements on the board
      revealMines();
      reveal = true;
@@ -65,7 +63,7 @@ void keyPressed(){
   }
 }
 void keyReleased(){
-  if (gameEnd == false){
+  if (gameEnd == false && firstTurn == false){
     if (keyCode == 'R' || keyCode == 'E'){
       reveal = false;
       printGrid();
@@ -80,24 +78,27 @@ void mousePressed(){
   if (gameEnd == false && isValid(x,y)){
     if (mouseButton == LEFT){
       if (!firstTurn){
-        if(board.getBoard()[(y-2*SIZE)/SIZE][x/SIZE].getBombsNear() == 0 && !(board.getBoard()[(y-2*SIZE)/SIZE][x/SIZE].getIsMine())){
+        if(board.getBoard()[(y-2*SIZE)/SIZE][x/SIZE].getIsHidden() && board.getBoard()[(y-2*SIZE)/SIZE][x/SIZE].getBombsNear() == 0 && !(board.getBoard()[(y-2*SIZE)/SIZE][x/SIZE].getIsMine())){
           print(carve(x,y));
         }
         else{
           dig(x,y);
         }
       }
-      else{
-        if (firstCarve(x,y)){
-          firstTurn = false;
-        }
+      else if (isValid(x,y)){
+        int i = (y-2*SIZE)/SIZE;
+        int j = x/SIZE;
+        board = new Board(numMines, rows, cols,i,j);
+        field = board.getField();
+        firstTurn = false;
+        carve(x,y);
       } 
     }
     if (mouseButton == RIGHT){
       flag(x,y);
     }
   }
-}
+} /*
 boolean firstCarve(int x, int y){
   boolean carved = false;
   for (int k = 1; k < 3; k ++){
@@ -109,7 +110,7 @@ boolean firstCarve(int x, int y){
     }
   }
   return carved;
-}
+} */
 boolean carve(int x, int y){ // when dug square has 0 bombs near 
   int i = (y-2*SIZE)/SIZE;
   int j = x/SIZE;
