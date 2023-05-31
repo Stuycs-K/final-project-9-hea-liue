@@ -253,7 +253,7 @@ void printGrid(){
           fill(#C1F376);
         }
         else{
-//          stroke(#A1DF50);
+          stroke(#A1DF50);
           fill(#A1DF50);
         }
       }
@@ -275,7 +275,7 @@ void printBoard(){
       }
       int bombsNear = field[i][j];
       if (bombsNear > 0){
-        stroke(#DBC8AC);
+        stroke(0);
         fill(#DBC8AC);
         square(j*SIZE,(i+2)*SIZE,SIZE);
         textSize(40);
@@ -294,7 +294,7 @@ void printBoard(){
         text(bombsNear, j*50+15, (i+3)*50-10);
       }
       else if (bombsNear == -2){
-        stroke(#DBC8AC);
+        stroke(0);
         fill(#DBC8AC);
         square(j*SIZE,(i+2)*SIZE,SIZE);
       }
