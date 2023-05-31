@@ -12,6 +12,7 @@ private int[][] field;
 private int[][] flagsPlaced;
 private boolean reveal;
 private int gameNumber = 0;
+private boolean firstTurn;
 
 void setup(){
   textSize(30);
@@ -25,6 +26,7 @@ void setup(){
     rows = 8;
     cols = 10;
     reveal = false;
+    firstTurn = true;
     flagsPlaced = new int[rows][cols];
     board = new Board(numMines, rows, cols);
     field = board.getField();
@@ -77,22 +79,41 @@ void mousePressed(){
   int y = mouseY; 
   if (gameEnd == false && isValid(x,y)){
     if (mouseButton == LEFT){
-      if(board.getBoard()[(y-2*SIZE)/SIZE][x/SIZE].getBombsNear() == 0 && !(board.getBoard()[(y-2*SIZE)/SIZE][x/SIZE].getIsMine())){
-        carve(x,y);
+      if (!firstTurn){
+        if(board.getBoard()[(y-2*SIZE)/SIZE][x/SIZE].getBombsNear() == 0 && !(board.getBoard()[(y-2*SIZE)/SIZE][x/SIZE].getIsMine())){
+          print(carve(x,y));
+        }
+        else{
+          dig(x,y);
+        }
       }
       else{
-        dig(x,y);
-      }
+        if (firstCarve(x,y)){
+          firstTurn = false;
+        }
+      } 
     }
     if (mouseButton == RIGHT){
       flag(x,y);
     }
   }
 }
-void carve(int x, int y){ // when dug square has 0 bombs near 
+boolean firstCarve(int x, int y){
+  boolean carved = false;
+  for (int k = 1; k < 3; k ++){
+    for (int i = -k*SIZE; i < (k+1)*SIZE && carved == false; i+=SIZE){
+      for (int j = -k*SIZE; j < (k+1)*SIZE && carved == false; j+=SIZE){
+        carved = carve(x+i,y+j);
+  //      print("(" + i + "," + j + ")");
+      }
+    }
+  }
+  return carved;
+}
+boolean carve(int x, int y){ // when dug square has 0 bombs near 
   int i = (y-2*SIZE)/SIZE;
   int j = x/SIZE;
-    if(board.getBoard()[i][j].getBombsNear() == 0){
+    if(board.getBoard()[i][j].getBombsNear() == 0 && board.getBoard()[i][j].isMine() == false){
       stroke(#DBC8AC);
       fill(#DBC8AC);
       square(j*SIZE,(i+2)*SIZE,SIZE);
@@ -104,10 +125,10 @@ void carve(int x, int y){ // when dug square has 0 bombs near
           if(board.getBoard()[i-1][j-1].getBombsNear() != 0){
             dig(x-SIZE,y-SIZE);
           }
-          else if (field[i-1][j-1] == 0){
+/*          else if (field[i-1][j-1] == 0){
             board.reveal(i-1,j-1);
             carve(x=SIZE,y-SIZE);
-          } 
+          } */
         }
       }  
       if(i > 0){ //1,2
@@ -126,10 +147,10 @@ void carve(int x, int y){ // when dug square has 0 bombs near
           if(board.getBoard()[i-1][j+1].getBombsNear() != 0){
             dig(x+SIZE,y-SIZE);
           }
-          else if (field[i-1][j+1] == 0){
+/*          else if (field[i-1][j+1] == 0){
             board.reveal(i-1,j+1);
             carve(x+SIZE,y-SIZE);
-          }
+          }*/
         }
       }
       if(j > 0){//2,1
@@ -159,10 +180,10 @@ void carve(int x, int y){ // when dug square has 0 bombs near
           if(board.getBoard()[i+1][j-1].getBombsNear() != 0){
             dig(x-SIZE,y+SIZE);
           }
-          else if (field[i+1][j-1] == 0){
+/*          else if (field[i+1][j-1] == 0){
             board.reveal(i+1,j-1);
             carve(x-SIZE,y+SIZE);
-          }
+          }*/
         }
       }
       if(i < rows-1){ //3,2
@@ -181,14 +202,15 @@ void carve(int x, int y){ // when dug square has 0 bombs near
           if(board.getBoard()[i+1][j+1].getBombsNear() != 0){
             dig(x+SIZE,y+SIZE);
           }
-          else if (field[i+1][j+1] == 0){
+/*          else if (field[i+1][j+1] == 0){
             board.reveal(i+1,j+1);
             carve(x+SIZE,y+SIZE);
-          }
+          }*/
         }
       }
+      return true;
     }
-  
+  return false;
   //should implement the maze spread method
 }
 void dig(int x, int y){
@@ -226,7 +248,10 @@ void flag(int x, int y){
 boolean isValid(int x, int y){
   return !(y < 2*SIZE || y > (rows+2)*SIZE || x < 0 || x > cols*SIZE); //checks if the coordinate is within the minefield
 }
-
+int[] findSafe(int x, int y){
+//  if (board.getBoard()[(y-2*SIZE)/SIZE][x/SIZE].getBombsNear() == 0 && !(board.getBoard()[(y-2*SIZE)/SIZE][x/SIZE].getIsMine()))
+    return new int[]{x,y};
+}
 void endGame(){
   gameEnd = true;
   printGrid();
@@ -239,6 +264,7 @@ void endGame(){
   fill(0);
   text("press 'enter' to restart", SIZE/2,SIZE*1.75);
 }
+
 void printGrid(){
   stroke(255);
   for(int i = 0; i<SIZE*(rows+2); i+=SIZE){
