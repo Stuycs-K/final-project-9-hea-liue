@@ -20,16 +20,21 @@ void setup(){
   gameEnd = false;
   turns = 0;
   if (DIFFICULTY == 1){
-    gameNumber++;
     numMines = 10;
-    numFlags = numMines;
     rows = 8;
     cols = 10;
-    reveal = false;
-    firstTurn = true;
-    flagsPlaced = new int[rows][cols];
-    printGrid();
   }
+  if (DIFFICULTY == 2){
+    numMines = 40;
+    rows = 14;
+    cols = 18;
+  }
+  gameNumber++;
+  numFlags = numMines;
+  reveal = false;
+  firstTurn = true;
+  flagsPlaced = new int[rows][cols];
+  printGrid();
 }
 void draw(){
   if (firstTurn == false && gameEnd == false  && reveal == false){
