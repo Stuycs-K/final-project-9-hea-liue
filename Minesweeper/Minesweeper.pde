@@ -35,9 +35,9 @@ void draw(){
   if (gameEnd == false  && reveal == false){
     printGrid();
     printBoard();
-//    if (board.getSquaresRevealed() + numMines == rows*cols){
-//      endGame();
-//    }
+    if (board.getSquaresRevealed() + numMines == rows*cols){
+      endGame();
+    }
   }
 }
 
@@ -96,14 +96,17 @@ void carve(int x, int y){ // when dug square has 0 bombs near
       stroke(#DBC8AC);
       fill(#DBC8AC);
       square(j*SIZE,(i+2)*SIZE,SIZE);
+      if (field[i][j] == 0){
+        board.reveal(i,j);
+      }
       if(i > 0 && j > 0){ //1,1
         if(board.getBoard()[i-1][j-1].getIsHidden() == true){
           if(board.getBoard()[i-1][j-1].getBombsNear() != 0){
             dig(x-SIZE,y-SIZE);
           }
-          else if (field[i-1][j-1] > 0){
-             field[i-1][j-1] = -2;
-             carve(x=SIZE,y-SIZE);
+          else if (field[i-1][j-1] == 0){
+            board.reveal(i-1,j-1);
+            carve(x=SIZE,y-SIZE);
           } 
         }
       }  
@@ -112,9 +115,9 @@ void carve(int x, int y){ // when dug square has 0 bombs near
           if(board.getBoard()[i-1][j].getBombsNear() != 0){
             dig(x,y-SIZE);
           }
-          else if (field[i-1][j] > 0){
-             field[i-1][j] = -2;
-             carve(x,y-SIZE);
+          else if (field[i-1][j] == 0){
+            board.reveal(i-1,j);
+            carve(x,y-SIZE);
           } 
         }
       }  
@@ -123,8 +126,8 @@ void carve(int x, int y){ // when dug square has 0 bombs near
           if(board.getBoard()[i-1][j+1].getBombsNear() != 0){
             dig(x+SIZE,y-SIZE);
           }
-          else if (field[i-1][j+1] > 0){
-            field[i-1][j+1] = -2;
+          else if (field[i-1][j+1] == 0){
+            board.reveal(i-1,j+1);
             carve(x+SIZE,y-SIZE);
           }
         }
@@ -134,8 +137,8 @@ void carve(int x, int y){ // when dug square has 0 bombs near
           if(board.getBoard()[i][j-1].getBombsNear() != 0){
             dig(x-SIZE,y);
           }
-          else if (field[i][j-1] > 0){
-            field[i][j-1] = -2;
+          else if (field[i][j-1] == 0){
+            board.reveal(i,j-1);
             carve(x-SIZE,y);
           }
         }
@@ -145,8 +148,8 @@ void carve(int x, int y){ // when dug square has 0 bombs near
           if(board.getBoard()[i][j+1].getBombsNear() != 0){
             dig(x+SIZE,y);
           }
-          else if (field[i][j+1] > 0){
-            field[i][j+1] = -2;
+          else if (field[i][j+1] == 0){
+            board.reveal(i,j+1);
             carve(x+SIZE,y);
           }
         }
@@ -156,8 +159,8 @@ void carve(int x, int y){ // when dug square has 0 bombs near
           if(board.getBoard()[i+1][j-1].getBombsNear() != 0){
             dig(x-SIZE,y+SIZE);
           }
-          else if (field[i+1][j-1] > 0){
-            field[i+1][j-1] = -2;
+          else if (field[i+1][j-1] == 0){
+            board.reveal(i+1,j-1);
             carve(x-SIZE,y+SIZE);
           }
         }
@@ -167,8 +170,8 @@ void carve(int x, int y){ // when dug square has 0 bombs near
           if(board.getBoard()[i+1][j].getBombsNear() != 0){
             dig(x,y+SIZE);
           }
-          else if (field[i+1][j] > 0){
-            field[i+1][j] = -2;
+          else if (field[i+1][j] == 0){
+            board.reveal(i+1,j);
             carve(x,y+SIZE);
           }
         }
@@ -178,8 +181,8 @@ void carve(int x, int y){ // when dug square has 0 bombs near
           if(board.getBoard()[i+1][j+1].getBombsNear() != 0){
             dig(x+SIZE,y+SIZE);
           }
-          else if (field[i+1][j+1] > 0){
-            field[i+1][j+1] = -2;
+          else if (field[i+1][j+1] == 0){
+            board.reveal(i+1,j+1);
             carve(x+SIZE,y+SIZE);
           }
         }
@@ -250,7 +253,7 @@ void printGrid(){
           fill(#C1F376);
         }
         else{
-          stroke(#A1DF50);
+//          stroke(#A1DF50);
           fill(#A1DF50);
         }
       }

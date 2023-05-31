@@ -21,6 +21,7 @@ at home: got dig working for one square and started an endGame method; set up me
 ### date 5/30
 in class: discussed with Eric how to implement carve and helped him implement in on his computer;
 at home: worked on endGame() method and allowed for a reset game after losing/winning by pressing 'enter', implemented the changes we made in class;
+got the carve method fully working for squares = 0;
 
 ## GROUP MEMBER 2
 Eric Liu

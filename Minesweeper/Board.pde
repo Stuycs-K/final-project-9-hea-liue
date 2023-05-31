@@ -27,7 +27,11 @@ public class Board{
     }
   }
   public void reveal(int row, int col){
-    field[row][col] = board[row][col].getBombsNear();
+    int bombsNear = board[row][col].getBombsNear();
+    if (board[row][col].getBombsNear() == 0){
+      bombsNear =  -2;
+    }
+    field[row][col] = bombsNear;
     board[row][col].reveal();
     squaresRevealed++;
   }
