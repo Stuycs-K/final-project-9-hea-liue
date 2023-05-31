@@ -27,6 +27,7 @@ got the carve method fully working for squares = 0;
 Eric Liu
 ### date 5/22
 in class: created the visual board representation for easy mode
+at home: created basic methods needed
 
 ### date 5/24
 in class: started working on sumSquare to calculate the number of mines around a square
@@ -35,3 +36,9 @@ at home: added the checkSquares helper method
 ### date 5/25
 in class: created a method to show the value of safe squares, made a better version of setting mines that will always make the difficulty's amount
 at home: refined the checkSquares since values shown were not consistent to what they should be
+
+### date 5/26
+in class: removed zeroes from showing on the board and the purpose of the board is to store values while field stores dig-able squares and undig-able squares
+
+### date 5/29
+at home: started the carve method, stuck due to a recursion overflow, created turns for the case you want to start carve over dig and committed onto a separate branch called "carve"
