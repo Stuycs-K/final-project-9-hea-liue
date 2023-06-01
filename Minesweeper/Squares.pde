@@ -18,11 +18,6 @@ public class Squares{
   public boolean isMine(){
     return isMine;
   }
-  public void explode(){
-    if (isMine = true && isHidden == false){
-//      endGame();
-    }
-  }
   public void setBomb(boolean isBomb){
     if (isBomb == true)
       isMine = true;
