@@ -1,11 +1,11 @@
 private static final int DIFFICULTY = 1; // 1 = easy, 2 = medium
 private static final int SIZE = 50;
-private int timePassed;
 private int numMines;
 private int numFlags;
 private int rows;
 private int cols;
 private boolean gameEnd;
+private boolean isWin;
 private Board board;
 private int[][] field;
 private int[][] flagsPlaced;
@@ -40,7 +40,8 @@ void draw(){
     printGrid();
     printBoard();
     if (board.getSquaresRevealed() + numMines == rows*cols){
-      endGame(true);
+      isWin = true;
+      endGame();
     }
   }
 }
@@ -237,7 +238,8 @@ void dig(int x, int y){
       field = board.getField();
     }
     else if (field[i][j] == -1){
-      endGame(false); // to be implemented
+      isWin = false;
+      endGame(); // to be implemented
       fill(0,0,255);
       stroke(255);
       circle(j*SIZE+SIZE/2, (i+2)*SIZE+SIZE/2, SIZE/2);
@@ -267,7 +269,7 @@ int[] findSafe(int x, int y){
 //  if (board.getBoard()[(y-2*SIZE)/SIZE][x/SIZE].getBombsNear() == 0 && !(board.getBoard()[(y-2*SIZE)/SIZE][x/SIZE].getIsMine()))
     return new int[]{x,y};
 }
-void endGame(boolean isWin){
+void endGame(){
   gameEnd = true;
   printGrid();
   printBoard();
@@ -324,7 +326,7 @@ void printBoard(){
         circle(j*SIZE+radius, (i+2)*SIZE+radius, radius);
       }
       int bombsNear = field[i][j];
-      if (gameEnd){
+      if (gameEnd && isWin){
         stroke(0);
         if(!(board.getBoard()[i][j].getIsMine())) fill(#7EC3FA);
         else fill(#7ED661);
