@@ -29,7 +29,7 @@ public class Board{
         mines--;
       }
     }
-    print("bombs placed");
+//    print("bombs placed");
   }
   public boolean isValid(int xran, int yran){
     for (int i = -1; i<=1; i++){

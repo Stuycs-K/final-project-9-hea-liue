@@ -1,7 +1,5 @@
 private static final int DIFFICULTY = 1; // 1 = easy, 2 = medium
 private static final int SIZE = 50;
-private int timePassed;
-private int turns;
 private int numMines;
 private int numFlags;
 private int rows;
@@ -15,11 +13,10 @@ private int gameNumber = 0;
 private boolean firstTurn;
 private int startTime;
 
-void setup(){
+void setup(){ //chooses difficulty and sets mines, rows, cols
   textSize(30);
   size(1000,1000);
   gameEnd = false;
-  turns = 0;
   if (DIFFICULTY == 1){
     numMines = 10;
     rows = 8;
@@ -55,7 +52,7 @@ void keyPressed(){
      textSize(25);
      text("Reveal Mines: ON",15,60);
     }
-    if (keyCode == 'E'){
+    if (keyCode == 'E'){ //E button reveals the safe squares with bombs nearby
      revealNeutral();
      reveal = true;
      textSize(25);
@@ -63,7 +60,7 @@ void keyPressed(){
     }
   }
   if (gameEnd == true){
-    if (keyCode == ENTER){
+    if (keyCode == ENTER){ // Enter button restarts the game when it ends
       setup();
     }
   }
@@ -85,40 +82,27 @@ void mousePressed(){
     if (mouseButton == LEFT){
       if (!firstTurn){
         if(board.getBoard()[(y-2*SIZE)/SIZE][x/SIZE].getIsHidden() && board.getBoard()[(y-2*SIZE)/SIZE][x/SIZE].getBombsNear() == 0 && !(board.getBoard()[(y-2*SIZE)/SIZE][x/SIZE].getIsMine())){
-          print(carve(x,y));
+          carve(x,y); //reveals all nearby 0-bombs-near safe squares if a 0-bombs-near safesquare is clicked
         }
         else{
-          dig(x,y);
+          dig(x,y); //reveals the safesquare with the number of bombs near
         }
       }
-      else if (isValid(x,y)){
+      else if (isValid(x,y)){ //first turn protocol to make sure that initial carve isn't a bomb
         int i = (y-2*SIZE)/SIZE;
         int j = x/SIZE;
-        board = new Board(numMines, rows, cols,i,j);
+        board = new Board(numMines, rows, cols,i,j); 
         field = board.getField();
         firstTurn = false;
         carve(x,y);
         startTime = millis()/1000;
-        print(startTime);
       } 
     }
     if (mouseButton == RIGHT){
-      flag(x,y);
+      flag(x,y); //flags the square if right click
     }
   }
-} /*
-boolean firstCarve(int x, int y){
-  boolean carved = false;
-  for (int k = 1; k < 3; k ++){
-    for (int i = -k*SIZE; i < (k+1)*SIZE && carved == false; i+=SIZE){
-      for (int j = -k*SIZE; j < (k+1)*SIZE && carved == false; j+=SIZE){
-        carved = carve(x+i,y+j);
-  //      print("(" + i + "," + j + ")");
-      }
-    }
-  }
-  return carved;
-} */
+}
 boolean carve(int x, int y){ // when dug square has 0 bombs near 
   int i = (y-2*SIZE)/SIZE;
   int j = x/SIZE;
@@ -134,10 +118,6 @@ boolean carve(int x, int y){ // when dug square has 0 bombs near
           if(board.getBoard()[i-1][j-1].getBombsNear() != 0){
             dig(x-SIZE,y-SIZE);
           }
-/*          else if (field[i-1][j-1] == 0){
-            board.reveal(i-1,j-1);
-            carve(x=SIZE,y-SIZE);
-          } */
         }
       }  
       if(i > 0){ //1,2
@@ -156,10 +136,6 @@ boolean carve(int x, int y){ // when dug square has 0 bombs near
           if(board.getBoard()[i-1][j+1].getBombsNear() != 0){
             dig(x+SIZE,y-SIZE);
           }
-/*          else if (field[i-1][j+1] == 0){
-            board.reveal(i-1,j+1);
-            carve(x+SIZE,y-SIZE);
-          }*/
         }
       }
       if(j > 0){//2,1
@@ -189,10 +165,6 @@ boolean carve(int x, int y){ // when dug square has 0 bombs near
           if(board.getBoard()[i+1][j-1].getBombsNear() != 0){
             dig(x-SIZE,y+SIZE);
           }
-/*          else if (field[i+1][j-1] == 0){
-            board.reveal(i+1,j-1);
-            carve(x-SIZE,y+SIZE);
-          }*/
         }
       }
       if(i < rows-1){ //3,2
@@ -211,10 +183,6 @@ boolean carve(int x, int y){ // when dug square has 0 bombs near
           if(board.getBoard()[i+1][j+1].getBombsNear() != 0){
             dig(x+SIZE,y+SIZE);
           }
-/*          else if (field[i+1][j+1] == 0){
-            board.reveal(i+1,j+1);
-            carve(x+SIZE,y+SIZE);
-          }*/
         }
       }
       return true;
@@ -222,7 +190,7 @@ boolean carve(int x, int y){ // when dug square has 0 bombs near
   return false;
   //should implement the maze spread method
 }
-void dig(int x, int y){
+void dig(int x, int y){ //reveals one square
   int i = (y-2*SIZE)/SIZE;
   int j = x/SIZE;
   if (isValid(x,y)){
@@ -239,7 +207,7 @@ void dig(int x, int y){
   }
   
 }
-void flag(int x, int y){
+void flag(int x, int y){ //marks one square
   int i = (y-2*SIZE)/SIZE;
   int j = x/SIZE;
   if (isValid(x,y)){
@@ -253,13 +221,8 @@ void flag(int x, int y){
     }
   }
 }
-
 boolean isValid(int x, int y){
   return !(y < 2*SIZE || y > (rows+2)*SIZE || x < 0 || x > cols*SIZE); //checks if the coordinate is within the minefield
-}
-int[] findSafe(int x, int y){
-//  if (board.getBoard()[(y-2*SIZE)/SIZE][x/SIZE].getBombsNear() == 0 && !(board.getBoard()[(y-2*SIZE)/SIZE][x/SIZE].getIsMine()))
-    return new int[]{x,y};
 }
 void endGame(boolean isWin){
   gameEnd = true;
@@ -279,7 +242,6 @@ void endGame(boolean isWin){
   fill(0);
   text("press 'enter' to restart", SIZE/2,SIZE*1.75);
 }
-
 void printGrid(){
   stroke(255);
   for(int i = 0; i<SIZE*(rows+2); i+=SIZE){
@@ -308,7 +270,7 @@ void printBoard(){
   stroke(255);
   text("Game#" +gameNumber, (cols-2)*SIZE, SIZE/2);
   int currentTime = millis()/1000 - startTime;
-  text("Time: " + currentTime/60 + "m" + currentTime + "s", (cols-3)*SIZE, SIZE*1.5);
+  text("Time: " + currentTime/60 + "m" + currentTime%60 + "s", (cols-3)*SIZE, SIZE*1.5);
   for(int i = 0; i<rows; i++){
     for(int j = 0; j<cols; j++){
       if (flagsPlaced[i][j] == -1){  // places flags in track
@@ -352,7 +314,6 @@ void printBoard(){
   text("Remaining Flags: "+numFlags + "/" + numMines,15,30);
 }
 
-
 void revealMines(){
   float radius = SIZE/2.0;
   for(int i = 0; i<rows; i++){
@@ -368,7 +329,6 @@ void revealMines(){
     }
   }
 }
-
 void revealNeutral(){
   for(int i = 0; i<rows; i++){
     for(int j = 0; j<cols; j++){
