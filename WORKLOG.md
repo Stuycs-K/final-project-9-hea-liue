@@ -24,7 +24,7 @@ at home: worked on endGame() method and allowed for a reset game after losing/wi
 got the carve method fully working for squares = 0;
 ### date 5/31
 in class: worked on the initial carve;
-at home: got the first carve working and redid how the bombs were placed initially to accomodate
+at home: got the first carve working and redid how the bombs were placed initially to accomodate, started working on a medium difficulty, added timer and win sequence;
 
 
 ## GROUP MEMBER 2

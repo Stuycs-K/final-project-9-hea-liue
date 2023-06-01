@@ -13,6 +13,7 @@ private int[][] flagsPlaced;
 private boolean reveal;
 private int gameNumber = 0;
 private boolean firstTurn;
+private int startTime;
 
 void setup(){
   textSize(30);
@@ -20,23 +21,28 @@ void setup(){
   gameEnd = false;
   turns = 0;
   if (DIFFICULTY == 1){
-    gameNumber++;
     numMines = 10;
-    numFlags = numMines;
     rows = 8;
     cols = 10;
-    reveal = false;
-    firstTurn = true;
-    flagsPlaced = new int[rows][cols];
-    printGrid();
   }
+  if (DIFFICULTY == 2){
+    numMines = 40;
+    rows = 14;
+    cols = 18;
+  }
+  gameNumber++;
+  numFlags = numMines;
+  reveal = false;
+  firstTurn = true;
+  flagsPlaced = new int[rows][cols];
+  printGrid();
 }
 void draw(){
   if (firstTurn == false && gameEnd == false  && reveal == false){
     printGrid();
     printBoard();
     if (board.getSquaresRevealed() + numMines == rows*cols){
-      endGame();
+      endGame(true);
     }
   }
 }
@@ -92,6 +98,8 @@ void mousePressed(){
         field = board.getField();
         firstTurn = false;
         carve(x,y);
+        startTime = millis()/1000;
+        print(startTime);
       } 
     }
     if (mouseButton == RIGHT){
@@ -223,7 +231,7 @@ void dig(int x, int y){
       field = board.getField();
     }
     else if (field[i][j] == -1){
-      endGame(); // to be implemented
+      endGame(false); // to be implemented
       fill(0,0,255);
       stroke(255);
       circle(j*SIZE+SIZE/2, (i+2)*SIZE+SIZE/2, SIZE/2);
@@ -253,14 +261,20 @@ int[] findSafe(int x, int y){
 //  if (board.getBoard()[(y-2*SIZE)/SIZE][x/SIZE].getBombsNear() == 0 && !(board.getBoard()[(y-2*SIZE)/SIZE][x/SIZE].getIsMine()))
     return new int[]{x,y};
 }
-void endGame(){
+void endGame(boolean isWin){
   gameEnd = true;
   printGrid();
   printBoard();
   revealMines();
   textSize(SIZE);
-  fill(255,0,0);
-  text("YOU LOSE", SIZE/2,SIZE);
+  if (!isWin){
+    fill(255,0,0);
+    text("YOU LOSE!!!", SIZE/2,SIZE);
+  }
+  else{
+    fill(0,0,255);
+    text("YOU WIN!!!", SIZE/2,SIZE);
+  }
   textSize(SIZE/2);
   fill(0);
   text("press 'enter' to restart", SIZE/2,SIZE*1.75);
@@ -293,6 +307,8 @@ void printBoard(){
   float radius = SIZE/2.0;
   stroke(255);
   text("Game#" +gameNumber, (cols-2)*SIZE, SIZE/2);
+  int currentTime = millis()/1000 - startTime;
+  text("Time: " + currentTime/60 + "m" + currentTime + "s", (cols-3)*SIZE, SIZE*1.5);
   for(int i = 0; i<rows; i++){
     for(int j = 0; j<cols; j++){
       if (flagsPlaced[i][j] == -1){  // places flags in track
