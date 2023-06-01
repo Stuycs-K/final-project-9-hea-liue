@@ -1,7 +1,6 @@
 private static final int DIFFICULTY = 1; // 1 = easy, 2 = medium
 private static final int SIZE = 50;
 private int timePassed;
-private int turns;
 private int numMines;
 private int numFlags;
 private int rows;
@@ -19,7 +18,6 @@ void setup(){
   textSize(30);
   size(1000,1000);
   gameEnd = false;
-  turns = 0;
   if (DIFFICULTY == 1){
     numMines = 10;
     rows = 8;
@@ -123,6 +121,10 @@ boolean carve(int x, int y){ // when dug square has 0 bombs near
   int i = (y-2*SIZE)/SIZE;
   int j = x/SIZE;
     if(board.getBoard()[i][j].getBombsNear() == 0 && board.getBoard()[i][j].isMine() == false){
+      if (flagsPlaced[i][j] == -1){
+        flagsPlaced[i][j] = 0;
+        numFlags++;
+      }
       stroke(#DBC8AC);
       fill(#DBC8AC);
       square(j*SIZE,(i+2)*SIZE,SIZE);
@@ -226,6 +228,10 @@ void dig(int x, int y){
   int i = (y-2*SIZE)/SIZE;
   int j = x/SIZE;
   if (isValid(x,y)){
+    if (flagsPlaced[i][j] == -1){
+      flagsPlaced[i][j] = 0;
+      numFlags++;
+    }
     if (field[i][j] == 0){
       board.reveal(i,j);
       field = board.getField();
@@ -247,7 +253,7 @@ void flag(int x, int y){
       flagsPlaced[i][j] = 0;
       numFlags++;
     }
-    else if (numFlags !=0){
+    else if (numFlags !=0 && board.getBoard()[i][j].getIsHidden()){
       flagsPlaced[(y-2*SIZE)/SIZE][x/SIZE] = -1;
       numFlags--;
     }
@@ -308,7 +314,8 @@ void printBoard(){
   stroke(255);
   text("Game#" +gameNumber, (cols-2)*SIZE, SIZE/2);
   int currentTime = millis()/1000 - startTime;
-  text("Time: " + currentTime/60 + "m" + currentTime + "s", (cols-3)*SIZE, SIZE*1.5);
+  if(gameEnd) text("Score: " + currentTime, (cols-2)*SIZE, SIZE*1.5);
+  else text("Time: " + currentTime + "s", (cols-2)*SIZE, SIZE*1.5);
   for(int i = 0; i<rows; i++){
     for(int j = 0; j<cols; j++){
       if (flagsPlaced[i][j] == -1){  // places flags in track
@@ -317,6 +324,13 @@ void printBoard(){
         circle(j*SIZE+radius, (i+2)*SIZE+radius, radius);
       }
       int bombsNear = field[i][j];
+      if (gameEnd){
+        stroke(0);
+        if(!(board.getBoard()[i][j].getIsMine())) fill(#7EC3FA);
+        else fill(#7ED661);
+        square(j*SIZE,(i+2)*SIZE,SIZE);
+      }
+      else
       if (bombsNear > 0){
         stroke(0);
         fill(#DBC8AC);
