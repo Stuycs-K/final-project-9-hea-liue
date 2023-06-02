@@ -25,35 +25,30 @@ got the carve method fully working for squares = 0;
 ### date 5/31
 in class: worked on the initial carve;
 at home: got the first carve working and redid how the bombs were placed initially to accomodate, started working on a medium difficulty, added timer and win sequence;
-### date 6/1
-at home: fixed the timer;
+
 
 ## GROUP MEMBER 2
 Eric Liu
 ### date 5/22
 in class: created the visual board representation for easy mode
 at home: created basic methods needed
-
+### date 5/23
+in class: removed safe and bomb class by merging into squares class
+at home: worked on squares class, get/class/other methods
 ### date 5/24
 in class: started working on sumSquare to calculate the number of mines around a square
 at home: added the checkSquares helper method
-
 ### date 5/25
 in class: created a method to show the value of safe squares, made a better version of setting mines that will always make the difficulty's amount
 at home: refined the checkSquares since values shown were not consistent to what they should be
-
 ### date 5/26
 in class: removed zeroes from showing on the board and the purpose of the board is to store values while field stores dig-able squares and undig-able squares
-
 ### date 5/29
 at home: started the carve method, stuck due to a recursion overflow, created turns for the case you want to start carve over dig and committed onto a separate branch called "carve"
-
 ### date 5/30
 in class: discussed with Alvin about implementing carve, suggested adding a new characteristic to the squares to check if it has been dug or not
 at home: merged the branches and tested Alvin's code, took note of possible bad behaviors
-
 ### date 5/31
 in class: since first carve had bad behavior, suggested it to instead remove the bomb if clicked and place it elsewhere, also made sure that no bombs appear in the 8 squares around
-
 ### date 6/1
-at home: extensively tested to try to break, some errors include the functioning of flag on dug squares and non-bomb squares. deleted unused private variables and explode() method from squares. made it to where the squares turn blue upon victory
+at home: extensively tested to try to break, resolved some errors include the functioning of flag on dug squares and non-bomb squares. deleted unused private variables and explode() method from squares. made it to where the squares turn blue upon victory
