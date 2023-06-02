@@ -12,9 +12,6 @@ public class Squares{
     }
     isHidden = true;
   }
-  public void hide(){
-    
-  }
   public boolean isMine(){
     return isMine;
   }
