@@ -27,6 +27,8 @@ in class: worked on the initial carve;
 at home: got the first carve working and redid how the bombs were placed initially to accomodate, started working on a medium difficulty, added timer and win sequence;
 ### date 6/1
 at home: fixed the timer;
+### date 6/5
+at home: fixed the sizing issues for SIZE and board;
 
 ## GROUP MEMBER 2
 Eric Liu
