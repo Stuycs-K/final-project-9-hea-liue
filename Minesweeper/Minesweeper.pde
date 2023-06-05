@@ -1,4 +1,4 @@
-private static final int DIFFICULTY = 2; // 1 = easy, 2 = medium
+private static final int DIFFICULTY = 1; // 1 = easy, 2 = medium
 private static final int SIZE = 50;
 private int numMines;
 private int numFlags;
@@ -263,7 +263,7 @@ void printGrid(){
         fill(#4C9A2A);
       }
       else{
-        if((i+o) % (2*SIZE) != 0){
+        if((i+o) % 100 != 0){
           stroke(#C1F376);
           fill(#C1F376);
         }
@@ -316,7 +316,7 @@ void printBoard(){
         else {
           fill(255,0,255);
         }
-        text(bombsNear, j*SIZE+SIZE*0.3, (i+3)*SIZE-SIZE*0.2);
+        text(bombsNear, j*50+15, (i+3)*50-10);
       }
       else if (bombsNear == -2){
         stroke(0);
@@ -356,7 +356,7 @@ void revealNeutral(){
         if(board.getBoard()[i][j].getBombsNear() != 0){
           fill(0);
           textSize(40);
-          text(board.getBoard()[i][j].getBombsNear(), j*SIZE+SIZE*0.3, (i+3)*SIZE-SIZE*0.2); //Press 'E' to reveal safe square w/ bombs nearby
+          text(board.getBoard()[i][j].getBombsNear(), j*50+15, (i+3)*50-10); //Press 'E' to reveal safe square w/ bombs nearby
         }
       }
     }
