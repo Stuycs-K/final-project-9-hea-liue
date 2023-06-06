@@ -25,14 +25,12 @@ got the carve method fully working for squares = 0;
 ### date 5/31
 in class: worked on the initial carve;
 at home: got the first carve working and redid how the bombs were placed initially to accomodate, started working on a medium difficulty, added timer and win sequence;
-<<<<<<< HEAD
-
-=======
 ### date 6/1
 at home: fixed the timer;
 ### date 6/5
 at home: fixed the sizing issues for SIZE and board;
->>>>>>> Demo
+### date 6/6
+in class: worked on a medium and a hard difficulty and adjusted board sizings to fit;
 
 ## GROUP MEMBER 2
 Eric Liu

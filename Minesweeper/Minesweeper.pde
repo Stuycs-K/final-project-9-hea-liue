@@ -1,5 +1,5 @@
 private static final int DIFFICULTY = 2; // 1 = easy, 2 = medium
-private static final int SIZE = 50;
+private int SIZE;
 private int numMines;
 private int numFlags;
 private int rows;
@@ -15,18 +15,27 @@ private boolean firstTurn;
 private int startTime;
 
 void setup(){ //chooses difficulty and sets mines, rows, cols
-  textSize(30);
+  textSize(0.6*SIZE);
   size(1000,1000);
+  background(#4C9A2A);
   gameEnd = false;
   if (DIFFICULTY == 1){
     numMines = 10;
     rows = 8;
     cols = 10;
+    SIZE = 100;
   }
   if (DIFFICULTY == 2){
     numMines = 40;
-    rows = 14;
-    cols = 18;
+    rows = 16;//14
+    cols = 20;//18
+    SIZE = 50;
+  }
+  if (DIFFICULTY == 3){
+    numMines = 99;
+    rows = 20;//20
+    cols = 25;//24
+    SIZE = 40;
   }
   gameNumber++;
   numFlags = numMines;
@@ -51,13 +60,13 @@ void keyPressed(){
     if (keyCode == 'R'){ //R button reveals the bomb placements on the board
      revealMines();
      reveal = true;
-     textSize(25);
+     textSize(SIZE/2);
      text("Reveal Mines: ON",15,60);
     }
     if (keyCode == 'E'){ //E button reveals the safe squares with bombs nearby
      revealNeutral();
      reveal = true;
-     textSize(25);
+     textSize(SIZE/2);
      text("Reveal Numbers: ON",15,90);
     }
   }
@@ -303,7 +312,7 @@ void printBoard(){
         stroke(0);
         fill(#DBC8AC);
         square(j*SIZE,(i+2)*SIZE,SIZE);
-        textSize(40);
+        textSize(0.8*SIZE);
         if (bombsNear == 3){
           fill(255,0,0);
         }
@@ -325,7 +334,7 @@ void printBoard(){
       }
     }
   }
-  textSize(25);
+  textSize(SIZE/2);
   float shift = 255.0/(numMines/2);
   fill(510-shift*numFlags,0+shift*numFlags,0);
   if (gameEnd == true){
@@ -355,7 +364,7 @@ void revealNeutral(){
       if(!(board.getBoard()[i][j].getIsMine())){
         if(board.getBoard()[i][j].getBombsNear() != 0){
           fill(0);
-          textSize(40);
+          textSize(0.8*SIZE);
           text(board.getBoard()[i][j].getBombsNear(), j*SIZE+SIZE*0.3, (i+3)*SIZE-SIZE*0.2); //Press 'E' to reveal safe square w/ bombs nearby
         }
       }
