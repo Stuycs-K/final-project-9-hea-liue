@@ -31,6 +31,7 @@ at home: fixed the timer;
 at home: fixed the sizing issues for SIZE and board;
 ### date 6/6
 in class: worked on a medium and a hard difficulty and adjusted board sizings to fit;
+at home: made menus branch and implemented Eric's start menu with buttons;
 
 ## GROUP MEMBER 2
 Eric Liu
