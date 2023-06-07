@@ -14,6 +14,7 @@ private int gameNumber = 0;
 private boolean firstTurn;
 private int startTime;
 private boolean gameStart;
+private int highScore = 0;
 
 void setup(){ //chooses difficulty and sets mines, rows, cols
   gameStart = true;
@@ -39,8 +40,9 @@ void startScreen(){
   text("EASY",width/2-55,405);
   text("MEDIUM",width/2-85,555);
   text("HARD",width/2-55,705);
-  print(DIFFICULTY);
+//  print(DIFFICULTY);
 }
+
 void startGame(int num){
   DIFFICULTY = num;
   if (DIFFICULTY == 1){
@@ -305,9 +307,16 @@ void endGame(){
   }
   textSize(SIZE/2);
   fill(0);
-  text("press 'enter' to restart", SIZE/2,SIZE*1.75);
+  if (highScore == 0){
+    text("High Score: ---", SIZE/2,SIZE*1.75); 
+  }
+  else{
+    text("High Score: " + highScore, SIZE/2,SIZE*1.75);
+  }
+//  text("press 'enter' to restart", SIZE/2,SIZE*1.75);
 }
 void printGrid(){
+  background(#4C9A2A);
   stroke(255);
   for(int i = 0; i<SIZE*(rows+2); i+=SIZE){
     for(int o = 0; o<SIZE*cols; o+=SIZE){
@@ -335,7 +344,10 @@ void printBoard(){
   stroke(255);
   text("Game#" +gameNumber, (cols-2)*SIZE, SIZE/2);
   int currentTime = millis()/1000 - startTime;
-  if(gameEnd) text("Score: " + currentTime, (cols-2)*SIZE, SIZE*1.5);
+  if(gameEnd){
+    text("Score: " + currentTime, (cols-2)*SIZE, SIZE*1.5);
+    setHighScore(currentTime);
+  }
   else text("Time: " + currentTime/60 + "m" + currentTime%60 + "s", (cols-3)*SIZE, SIZE*1.5);
   for(int i = 0; i<rows; i++){
     for(int j = 0; j<cols; j++){
@@ -385,6 +397,13 @@ void printBoard(){
     fill(#4C9A2A);
   }
   text("Remaining Flags: "+numFlags + "/" + numMines,0.3*SIZE,0.6*SIZE);
+}
+void setHighScore(int currentTime){
+  if (isWin){
+    if (highScore == 0 || currentTime < highScore){
+      highScore = currentTime;
+    }
+  }
 }
 
 void revealMines(){
