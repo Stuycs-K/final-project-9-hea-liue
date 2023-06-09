@@ -32,6 +32,11 @@ at home: fixed the sizing issues for SIZE and board;
 ### date 6/6
 in class: worked on a medium and a hard difficulty and adjusted board sizings to fit;
 at home: made menus branch and implemented Eric's start menu with buttons;
+### date 6/6
+in class: discussed new approach to the menus, decided to have pop-ups rather than full end/win screens; create a high score keeper
+at home: implemented high score function;
+### date 6/9
+in class: fixed high score function that was deleted, adjusted the prototype, made different high scores for each difficulty;
 
 ## GROUP MEMBER 2
 Eric Liu

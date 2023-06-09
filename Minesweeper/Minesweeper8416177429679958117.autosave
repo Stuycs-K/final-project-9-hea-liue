@@ -14,9 +14,7 @@ private int gameNumber = 0;
 private boolean firstTurn;
 private int startTime;
 private boolean gameStart;
-private int highScore1 = 0;
-private int highScore2 = 0;
-private int highScore3 = 0;
+private int highScore = 0;
 private boolean popUp;
 
 void setup(){ //chooses difficulty and sets mines, rows, cols
@@ -50,6 +48,7 @@ void startScreen(){
 }
 
 void startGame(){
+  //print(DIFFICULTY);
   if (DIFFICULTY == 1){
     numMines = 10;
     rows = 8;
@@ -298,7 +297,10 @@ void dig(int x, int y){ //reveals one square
       field = board.getField();
     }
     else if (field[i][j] == -1){
-      isWin = false;
+      isWin = false; //checkpoint (for eric to test win screen)
+      fill(0,0,255);
+      stroke(255);
+      circle(j*SIZE+SIZE/2, (i+2)*SIZE+SIZE/2, SIZE/2);
       endGame(); // to be implemented
     }
   }
@@ -370,30 +372,13 @@ void endGame(){
   }
   textSize(SIZE/2);
   fill(0);
-  if (DIFFICULTY == 1){
-    if (highScore1 == 0){
-      text("High Score: ---", SIZE/2,SIZE); 
-    }
-    else{
-      text("High Score: " + highScore1, SIZE/2,SIZE);
-    }
+    if (highScore == 0){
+    text("High Score: ---", SIZE/2,SIZE); 
   }
-  else if (DIFFICULTY == 2){
-    if (highScore2 == 0){
-      text("High Score: ---", SIZE/2,SIZE); 
-    }
-    else{
-      text("High Score: " + highScore2, SIZE/2,SIZE);
-    }
+  else{
+    text("High Score: " + highScore, SIZE/2,SIZE);
   }
-  else if (DIFFICULTY == 3){
-    if (highScore3 == 0){
-      text("High Score: ---", SIZE/2,SIZE); 
-    }
-    else{
-      text("High Score: " + highScore3, SIZE/2,SIZE);
-    }
-  }
+//  text("press 'enter' to restart", SIZE/2,SIZE*1.75);
   if(popUp)
   text("press 'enter' to remove popup", SIZE/2,SIZE*1.75);
   else text("press 'enter' to show popup", SIZE/2,SIZE*1.75);
@@ -430,10 +415,10 @@ void printBoard(){
   text("Game#" +gameNumber, (cols-2)*SIZE, SIZE/2);
   int currentTime = millis()/1000 - startTime;
   if(gameEnd){
-    text("Score: " + currentTime, (cols-2.5)*SIZE, SIZE*1.5);
+    text("Score: " + currentTime, (cols-2)*SIZE, SIZE*1.5);
     setHighScore(currentTime);
   }
-  else text("Time: " + currentTime/60 + "m" + currentTime%60 + "s", (cols-3)*SIZE, SIZE*1.5);
+  else text("Time: " + currentTime/60 + "m" + currentTime%60 + "s", (cols-3)*SIZE, SIZE*1.9);
   for(int i = 0; i<rows; i++){
     for(int j = 0; j<cols; j++){
       if (flagsPlaced[i][j] == -1){  // places flags in track
@@ -478,32 +463,19 @@ void printBoard(){
   textSize(SIZE/2);
   float shift = 255.0/(numMines/2);
   fill(510-shift*numFlags,0+shift*numFlags,0);
-  if (gameEnd == true){
-    fill(#4C9A2A);
+  if (!gameEnd){
+    text("Remaining Flags: "+numFlags + "/" + numMines,0.3*SIZE,0.6*SIZE);
+    fill(0);
+    text("press backspace to return to menu",0.3*SIZE,SIZE*1.3);
   }
-  text("Remaining Flags: "+numFlags + "/" + numMines,0.3*SIZE,0.6*SIZE);
 }
-
 void setHighScore(int currentTime){
   if (isWin){
-    if (DIFFICULTY == 1){
-      if (highScore1 == 0 || currentTime < highScore1){
-        highScore1 = currentTime;
-      }
-    }
-    else if (DIFFICULTY == 2){
-      if (highScore2 == 0 || currentTime < highScore2){
-        highScore2 = currentTime;
-      }
-    }
-    else if (DIFFICULTY == 3){
-      if (highScore3 == 0 || currentTime < highScore3){
-        highScore3 = currentTime;
-      }
+    if (highScore == 0 || currentTime < highScore){
+      highScore = currentTime;
     }
   }
 }
-
 void revealMines(){
   float radius = SIZE/2.0;
   for(int i = 0; i<rows; i++){
@@ -519,7 +491,6 @@ void revealMines(){
     }
   }
 }
-
 void revealNeutral(){
   for(int i = 0; i<rows; i++){
     for(int j = 0; j<cols; j++){
