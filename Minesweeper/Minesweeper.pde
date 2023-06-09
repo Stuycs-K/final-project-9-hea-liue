@@ -14,7 +14,9 @@ private int gameNumber = 0;
 private boolean firstTurn;
 private int startTime;
 private boolean gameStart;
-private int highScore = 0;
+private int highScore1 = 0;
+private int highScore2 = 0;
+private int highScore3 = 0;
 private boolean popUp;
 
 void setup(){ //chooses difficulty and sets mines, rows, cols
@@ -368,11 +370,29 @@ void endGame(){
   }
   textSize(SIZE/2);
   fill(0);
-  if (highScore == 0){
-    text("High Score: ---", SIZE/2,SIZE); 
+  if (DIFFICULTY == 1){
+    if (highScore1 == 0){
+      text("High Score: ---", SIZE/2,SIZE); 
+    }
+    else{
+      text("High Score: " + highScore1, SIZE/2,SIZE);
+    }
   }
-  else{
-    text("High Score: " + highScore, SIZE/2,SIZE);
+  else if (DIFFICULTY == 2){
+    if (highScore2 == 0){
+      text("High Score: ---", SIZE/2,SIZE); 
+    }
+    else{
+      text("High Score: " + highScore2, SIZE/2,SIZE);
+    }
+  }
+  else if (DIFFICULTY == 3){
+    if (highScore3 == 0){
+      text("High Score: ---", SIZE/2,SIZE); 
+    }
+    else{
+      text("High Score: " + highScore3, SIZE/2,SIZE);
+    }
   }
   if(popUp)
   text("press 'enter' to remove popup", SIZE/2,SIZE*1.75);
@@ -410,7 +430,7 @@ void printBoard(){
   text("Game#" +gameNumber, (cols-2)*SIZE, SIZE/2);
   int currentTime = millis()/1000 - startTime;
   if(gameEnd){
-    text("Score: " + currentTime, (cols-2)*SIZE, SIZE*1.5);
+    text("Score: " + currentTime, (cols-2.5)*SIZE, SIZE*1.5);
     setHighScore(currentTime);
   }
   else text("Time: " + currentTime/60 + "m" + currentTime%60 + "s", (cols-3)*SIZE, SIZE*1.5);
@@ -466,8 +486,20 @@ void printBoard(){
 
 void setHighScore(int currentTime){
   if (isWin){
-    if (highScore == 0 || currentTime < highScore){
-      highScore = currentTime;
+    if (DIFFICULTY == 1){
+      if (highScore1 == 0 || currentTime < highScore1){
+        highScore1 = currentTime;
+      }
+    }
+    else if (DIFFICULTY == 2){
+      if (highScore2 == 0 || currentTime < highScore2){
+        highScore2 = currentTime;
+      }
+    }
+    else if (DIFFICULTY == 3){
+      if (highScore3 == 0 || currentTime < highScore3){
+        highScore3 = currentTime;
+      }
     }
   }
 }
