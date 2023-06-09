@@ -14,10 +14,7 @@ private int gameNumber = 0;
 private boolean firstTurn;
 private int startTime;
 private boolean gameStart;
-<<<<<<< HEAD
 private boolean popUp;
-=======
->>>>>>> refs/remotes/origin/main
 
 void setup(){ //chooses difficulty and sets mines, rows, cols
   gameStart = true;
@@ -25,23 +22,18 @@ void setup(){ //chooses difficulty and sets mines, rows, cols
   size(1000,1000);
   background(#4C9A2A);
   gameEnd = false;
-<<<<<<< HEAD
   popUp = true;
-=======
->>>>>>> refs/remotes/origin/main
   startScreen();
 }
+
 void startScreen(){
   gameStart = true;
   size(1000,1000);
   fill(#7DCB79);
   square(0,0,1000);
   fill(#61FF5A);
-<<<<<<< HEAD
   stroke(0);
   strokeWeight(1);
-=======
->>>>>>> refs/remotes/origin/main
   rect(width/2-200,200,400,75,20);
   rect(width/2-150,350,300,75,20);
   rect(width/2-150,500,300,75,20);
@@ -52,17 +44,10 @@ void startScreen(){
   text("EASY",width/2-55,405);
   text("MEDIUM",width/2-85,555);
   text("HARD",width/2-55,705);
-<<<<<<< HEAD
-  //print(DIFFICULTY);
 }
 
 void startGame(){
-=======
-  print(DIFFICULTY);
-}
-void startGame(int num){
-  DIFFICULTY = num;
->>>>>>> refs/remotes/origin/main
+  //print(DIFFICULTY);
   if (DIFFICULTY == 1){
     numMines = 10;
     rows = 8;
@@ -127,16 +112,13 @@ void keyPressed(){
       endGame();
     }
   }
-    if (keyCode == BACKSPACE){ // Enter button restarts the game when it ends
-<<<<<<< HEAD
-      if(!gameEnd){
-        setup();
-      }
-=======
+  if (keyCode == BACKSPACE){ // Enter button restarts the game when it ends
+    if(!gameEnd){
       setup();
->>>>>>> refs/remotes/origin/main
     }
+  }
 }
+
 void keyReleased(){
   if (gameEnd == false && firstTurn == false){
     if (keyCode == 'R' || keyCode == 'E'){
@@ -178,7 +160,6 @@ void mousePressed(){
     if(mouseButton == LEFT){
       if(x >= width/2-150 && x <= width/2+150){
         if(y >= 350 && y <= 425){
-<<<<<<< HEAD
           DIFFICULTY = 1;
           startGame();
         }
@@ -202,18 +183,8 @@ void mousePressed(){
         }
         if(x >= width/2-285 && x <= width/2-10){
           gameEnd = false;
-          gameStart = true;
           firstTurn = true;
           startGame();
-=======
-          startGame(1);
-        }
-        if(y >= 500 && y <= 575){
-          startGame(2);
-        }
-        if(y >= 650 && y <= 725){
-          startGame(3);
->>>>>>> refs/remotes/origin/main
         }
       }
     }
@@ -434,8 +405,8 @@ void printBoard(){
   stroke(255);
   text("Game#" +gameNumber, (cols-2)*SIZE, SIZE/2);
   int currentTime = millis()/1000 - startTime;
-  if(gameEnd) text("Score: " + currentTime, (cols-2)*SIZE, SIZE*1.5);
-  else text("Time: " + currentTime/60 + "m" + currentTime%60 + "s", (cols-3)*SIZE, SIZE*1.5);
+  if(gameEnd) text("Score: " + currentTime, (cols-2)*SIZE, SIZE*1.9);
+  else text("Time: " + currentTime/60 + "m" + currentTime%60 + "s", (cols-3)*SIZE, SIZE*1.9);
   for(int i = 0; i<rows; i++){
     for(int j = 0; j<cols; j++){
       if (flagsPlaced[i][j] == -1){  // places flags in track
@@ -480,10 +451,11 @@ void printBoard(){
   textSize(SIZE/2);
   float shift = 255.0/(numMines/2);
   fill(510-shift*numFlags,0+shift*numFlags,0);
-  if (gameEnd == true){
-    fill(#4C9A2A);
+  if (!gameEnd){
+    text("Remaining Flags: "+numFlags + "/" + numMines,0.3*SIZE,0.6*SIZE);
+    fill(0);
+    text("press backspace to return to menu",0.3*SIZE,SIZE*1.3);
   }
-  text("Remaining Flags: "+numFlags + "/" + numMines,0.3*SIZE,0.6*SIZE);
 }
 
 void revealMines(){
