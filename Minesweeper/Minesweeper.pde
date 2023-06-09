@@ -14,7 +14,10 @@ private int gameNumber = 0;
 private boolean firstTurn;
 private int startTime;
 private boolean gameStart;
+<<<<<<< HEAD
 private boolean popUp;
+=======
+>>>>>>> refs/remotes/origin/main
 
 void setup(){ //chooses difficulty and sets mines, rows, cols
   gameStart = true;
@@ -22,7 +25,10 @@ void setup(){ //chooses difficulty and sets mines, rows, cols
   size(1000,1000);
   background(#4C9A2A);
   gameEnd = false;
+<<<<<<< HEAD
   popUp = true;
+=======
+>>>>>>> refs/remotes/origin/main
   startScreen();
 }
 void startScreen(){
@@ -31,8 +37,11 @@ void startScreen(){
   fill(#7DCB79);
   square(0,0,1000);
   fill(#61FF5A);
+<<<<<<< HEAD
   stroke(0);
   strokeWeight(1);
+=======
+>>>>>>> refs/remotes/origin/main
   rect(width/2-200,200,400,75,20);
   rect(width/2-150,350,300,75,20);
   rect(width/2-150,500,300,75,20);
@@ -43,10 +52,17 @@ void startScreen(){
   text("EASY",width/2-55,405);
   text("MEDIUM",width/2-85,555);
   text("HARD",width/2-55,705);
+<<<<<<< HEAD
   //print(DIFFICULTY);
 }
 
 void startGame(){
+=======
+  print(DIFFICULTY);
+}
+void startGame(int num){
+  DIFFICULTY = num;
+>>>>>>> refs/remotes/origin/main
   if (DIFFICULTY == 1){
     numMines = 10;
     rows = 8;
@@ -112,9 +128,13 @@ void keyPressed(){
     }
   }
     if (keyCode == BACKSPACE){ // Enter button restarts the game when it ends
+<<<<<<< HEAD
       if(!gameEnd){
         setup();
       }
+=======
+      setup();
+>>>>>>> refs/remotes/origin/main
     }
 }
 void keyReleased(){
@@ -158,6 +178,7 @@ void mousePressed(){
     if(mouseButton == LEFT){
       if(x >= width/2-150 && x <= width/2+150){
         if(y >= 350 && y <= 425){
+<<<<<<< HEAD
           DIFFICULTY = 1;
           startGame();
         }
@@ -184,6 +205,15 @@ void mousePressed(){
           gameStart = true;
           firstTurn = true;
           startGame();
+=======
+          startGame(1);
+        }
+        if(y >= 500 && y <= 575){
+          startGame(2);
+        }
+        if(y >= 650 && y <= 725){
+          startGame(3);
+>>>>>>> refs/remotes/origin/main
         }
       }
     }
