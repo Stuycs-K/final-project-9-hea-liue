@@ -1,4 +1,4 @@
-private static final int DIFFICULTY = 2; // 1 = easy, 2 = medium
+private int DIFFICULTY; // 1 = easy, 2 = medium
 private int SIZE;
 private int numMines;
 private int numFlags;
@@ -13,12 +13,40 @@ private boolean reveal;
 private int gameNumber = 0;
 private boolean firstTurn;
 private int startTime;
+private boolean gameStart;
+private boolean popUp;
 
 void setup(){ //chooses difficulty and sets mines, rows, cols
+  gameStart = true;
   textSize(0.6*SIZE);
   size(1000,1000);
   background(#4C9A2A);
   gameEnd = false;
+  popUp = true;
+  startScreen();
+}
+void startScreen(){
+  gameStart = true;
+  size(1000,1000);
+  fill(#7DCB79);
+  square(0,0,1000);
+  fill(#61FF5A);
+  stroke(0);
+  strokeWeight(1);
+  rect(width/2-200,200,400,75,20);
+  rect(width/2-150,350,300,75,20);
+  rect(width/2-150,500,300,75,20);
+  rect(width/2-150,650,300,75,20);
+  textSize(50);
+  fill(0);
+  text("MINESWEEPER",width/2-160,255);
+  text("EASY",width/2-55,405);
+  text("MEDIUM",width/2-85,555);
+  text("HARD",width/2-55,705);
+  //print(DIFFICULTY);
+}
+
+void startGame(){
   if (DIFFICULTY == 1){
     numMines = 10;
     rows = 8;
@@ -32,7 +60,7 @@ void setup(){ //chooses difficulty and sets mines, rows, cols
     SIZE = 50;
   }
   if (DIFFICULTY == 3){
-    numMines = 99;
+    numMines = 100;
     rows = 20;//20
     cols = 25;//24
     SIZE = 40;
@@ -40,12 +68,14 @@ void setup(){ //chooses difficulty and sets mines, rows, cols
   gameNumber++;
   numFlags = numMines;
   reveal = false;
+  gameStart = false;
   firstTurn = true;
   flagsPlaced = new int[rows][cols];
   printGrid();
 }
+
 void draw(){
-  if (firstTurn == false && gameEnd == false  && reveal == false){
+  if (gameStart == false && firstTurn == false && gameEnd == false  && reveal == false){
     printGrid();
     printBoard();
     if (board.getSquaresRevealed() + numMines == rows*cols){
@@ -61,20 +91,31 @@ void keyPressed(){
      revealMines();
      reveal = true;
      textSize(SIZE/2);
-     text("Reveal Mines: ON",15,60);
+     text("Reveal Mines: ON",0.3*SIZE,1.2*SIZE);
     }
     if (keyCode == 'E'){ //E button reveals the safe squares with bombs nearby
      revealNeutral();
      reveal = true;
      textSize(SIZE/2);
-     text("Reveal Numbers: ON",15,90);
+     text("Reveal Numbers: ON",0.3*SIZE,1.8*SIZE);
     }
   }
-  if (gameEnd == true){
-    if (keyCode == ENTER){ // Enter button restarts the game when it ends
-      setup();
+  if (keyCode == ENTER){
+    if (gameEnd){ // Enter button restarts the game when it ends
+      if(popUp){
+        popUp = false;
+      }
+      else{
+        popUp = true;
+      }
+      endGame();
     }
   }
+    if (keyCode == BACKSPACE){ // Enter button restarts the game when it ends
+      if(!gameEnd){
+        setup();
+      }
+    }
 }
 void keyReleased(){
   if (gameEnd == false && firstTurn == false){
@@ -89,7 +130,7 @@ void keyReleased(){
 void mousePressed(){
   int x = mouseX;
   int y = mouseY; 
-  if (gameEnd == false && isValid(x,y)){
+  if (gameStart == false && gameEnd == false && isValid(x,y)){
     if (mouseButton == LEFT){
       if (!firstTurn){
         if(board.getBoard()[(y-2*SIZE)/SIZE][x/SIZE].getIsHidden() && board.getBoard()[(y-2*SIZE)/SIZE][x/SIZE].getBombsNear() == 0 && !(board.getBoard()[(y-2*SIZE)/SIZE][x/SIZE].getIsMine())){
@@ -109,11 +150,46 @@ void mousePressed(){
         startTime = millis()/1000;
       } 
     }
-    if (mouseButton == RIGHT){
+    if (!firstTurn && mouseButton == RIGHT){
       flag(x,y); //flags the square if right click
     }
   }
+  else if (gameStart == true){
+    if(mouseButton == LEFT){
+      if(x >= width/2-150 && x <= width/2+150){
+        if(y >= 350 && y <= 425){
+          DIFFICULTY = 1;
+          startGame();
+        }
+        if(y >= 500 && y <= 575){
+          DIFFICULTY = 2;
+          startGame();
+        }
+        if(y >= 650 && y <= 725){
+          DIFFICULTY = 3;
+          startGame();
+        }
+      }
+    }
+  }
+  else if (gameEnd && popUp){
+    if(mouseButton == LEFT){
+      if(y >= height/2-15 && y <= height/2+85){
+        if(x >= width/2+10 && x <= width/2+375){
+          gameEnd = false;
+          setup();
+        }
+        if(x >= width/2-285 && x <= width/2-10){
+          gameEnd = false;
+          gameStart = true;
+          firstTurn = true;
+          startGame();
+        }
+      }
+    }
+  }
 }
+
 boolean carve(int x, int y){ // when dug square has 0 bombs near 
   int i = (y-2*SIZE)/SIZE;
   int j = x/SIZE;
@@ -205,6 +281,7 @@ boolean carve(int x, int y){ // when dug square has 0 bombs near
   return false;
   //should implement the maze spread method
 }
+
 void dig(int x, int y){ //reveals one square
   int i = (y-2*SIZE)/SIZE;
   int j = x/SIZE;
@@ -218,15 +295,15 @@ void dig(int x, int y){ //reveals one square
       field = board.getField();
     }
     else if (field[i][j] == -1){
-      isWin = false;
-      endGame(); // to be implemented
+      isWin = false; //checkpoint (for eric to test win screen)
       fill(0,0,255);
       stroke(255);
       circle(j*SIZE+SIZE/2, (i+2)*SIZE+SIZE/2, SIZE/2);
+      endGame(); // to be implemented
     }
   }
-  
 }
+
 void flag(int x, int y){ //marks one square
   int i = (y-2*SIZE)/SIZE;
   int j = x/SIZE;
@@ -241,6 +318,7 @@ void flag(int x, int y){ //marks one square
     }
   }
 }
+
 boolean isValid(int x, int y){
   return !(y < 2*SIZE || y > (rows+2)*SIZE || x < 0 || x > cols*SIZE); //checks if the coordinate is within the minefield
 }
@@ -250,19 +328,53 @@ void endGame(){
   printGrid();
   printBoard();
   revealMines();
-  textSize(SIZE);
   if (!isWin){
-    fill(255,0,0);
-    text("YOU LOSE!!!", SIZE/2,SIZE);
+    if(popUp){
+      stroke(255,0,0);
+      strokeWeight(10);
+      fill(#7DCB79);
+      rect(width/2-300,height/2-100,600,200,40);
+      fill(255);
+      stroke(0);
+      strokeWeight(6);
+      rect(width/2+10,height/2-15,275,100,25);
+      rect(width/2-285,height/2-15,275,100,25);
+      fill(0);
+      textSize(75);
+      text("YOU LOSE!!!", width/2-190,height/2-25);
+      textSize(40);
+      text("return to menu",width/2+20,height/2+45);
+      text("replay",width/2-200,height/2+45);
+      strokeWeight(1);
+    }
   }
   else{
-    fill(0,0,255);
-    text("YOU WIN!!!", SIZE/2,SIZE);
+    if(popUp){
+      stroke(0,0,255);
+      strokeWeight(10);
+      fill(#7DCB79);
+      rect(width/2-300,height/2-100,600,200,40);
+      fill(255);
+      stroke(0);
+      strokeWeight(6);
+      rect(width/2+10,height/2-15,275,100,25);
+      rect(width/2-285,height/2-15,275,100,25);
+      fill(0);
+      textSize(75);
+      text("YOU WIN!!!", width/2-165,height/2-25);
+      textSize(40);
+      text("return to menu",width/2+20,height/2+45);
+      text("replay",width/2-200,height/2+45);
+      strokeWeight(1);
+    }
   }
   textSize(SIZE/2);
   fill(0);
-  text("press 'enter' to restart", SIZE/2,SIZE*1.75);
+  if(popUp)
+  text("press 'enter' to remove popup", SIZE/2,SIZE*1.75);
+  else text("press 'enter' to show popup", SIZE/2,SIZE*1.75);
 }
+
 void printGrid(){
   stroke(255);
   for(int i = 0; i<SIZE*(rows+2); i+=SIZE){
@@ -286,6 +398,7 @@ void printGrid(){
   }
   stroke(0);
 }
+
 void printBoard(){
   float radius = SIZE/2.0;
   stroke(255);
@@ -340,7 +453,7 @@ void printBoard(){
   if (gameEnd == true){
     fill(#4C9A2A);
   }
-  text("Remaining Flags: "+numFlags + "/" + numMines,15,30);
+  text("Remaining Flags: "+numFlags + "/" + numMines,0.3*SIZE,0.6*SIZE);
 }
 
 void revealMines(){
