@@ -18,8 +18,11 @@ private int highScore1 = 0;
 private int highScore2 = 0;
 private int highScore3 = 0;
 private boolean popUp;
+private int finalTime;
+private boolean setTime;
 
 void setup(){ //chooses difficulty and sets mines, rows, cols
+  setTime = false;
   gameStart = true;
   textSize(0.6*SIZE);
   size(1000,1000);
@@ -187,6 +190,7 @@ void mousePressed(){
           gameEnd = false;
           firstTurn = true;
           startGame();
+          setTime = false;
         }
       }
     }
@@ -430,8 +434,8 @@ void printBoard(){
   text("Game#" +gameNumber, (cols-2)*SIZE, SIZE/2);
   int currentTime = millis()/1000 - startTime;
   if(gameEnd){
-    text("Score: " + currentTime, (cols-2.5)*SIZE, SIZE*1.5);
     setHighScore(currentTime);
+    text("Score: " + finalTime, (cols-2.5)*SIZE, SIZE*1.5);
   }
   else text("Time: " + currentTime/60 + "m" + currentTime%60 + "s", (cols-3)*SIZE, SIZE*1.5);
   for(int i = 0; i<rows; i++){
@@ -485,6 +489,10 @@ void printBoard(){
 }
 
 void setHighScore(int currentTime){
+  if (setTime == false){
+    finalTime = millis()/1000 - startTime;
+    setTime = true;
+  }
   if (isWin){
     if (DIFFICULTY == 1){
       if (highScore1 == 0 || currentTime < highScore1){
