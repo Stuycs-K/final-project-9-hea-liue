@@ -63,3 +63,11 @@ at home: merged the branches and tested Alvin's code, took note of possible bad 
 in class: since first carve had bad behavior, suggested it to instead remove the bomb if clicked and place it elsewhere, also made sure that no bombs appear in the 8 squares around
 ### date 6/1
 at home: extensively tested to try to break, resolved some errors include the functioning of flag on dug squares and non-bomb squares. deleted unused private variables and explode() method from squares. made it to where the squares turn blue upon victory
+### date 6/6
+in class: created a menu page for the player to select their desired difficulty
+### date 6/7
+in class: started creating a pop-up button for when the game ends
+### date 6/8
+at home: finished pop-up for when the player wins/loses and the ability to remove it, added play again and return to menu buttons on the pop-up
+### date 6/10
+at home: finished rules when player clicks on the Minesweeper button during the start
