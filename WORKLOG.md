@@ -72,3 +72,5 @@ in class: created a menu page for the player to select their desired difficulty
 in class: started creating a pop-up button for when the game ends
 ### date 6/8
 at home: finished pop-up for when the player wins/loses and the ability to remove it, added play again and return to menu buttons on the pop-up
+### date 6/10
+at home: finished rules when the player clicks on Minesweeper button during the start
