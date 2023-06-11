@@ -1,4 +1,6 @@
 # Work Log
+Group Name: Oursweeper
+Members: Alvin He, Eric Liu
 
 ## GROUP MEMBER 1
 Alvin He
@@ -37,7 +39,7 @@ in class: discussed new approach to the menus, decided to have pop-ups rather th
 at home: implemented high score function;
 ### date 6/9
 in class: fixed high score function that was deleted, adjusted the prototype, made different high scores for each difficulty;
-at home: fixed score tracker post-game;
+at home: fixed score tracker post-game, worked on README.md file;
 
 ## GROUP MEMBER 2
 Eric Liu
