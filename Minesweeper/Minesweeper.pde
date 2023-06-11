@@ -63,7 +63,7 @@ void rules(){
   text("RETURN",60,105);
   
   fill(#DBC8AC);
-  rect(300,120,600,620,20);
+  rect(300,120,600,750,20);
   square(380,380,30);
   square(410,380,30);
   square(440,380,30);
@@ -118,7 +118,10 @@ void rules(){
   text("- This is shown as a red circle, right-click to remove it.",330,600);
   text("- The lower the time, the better the score.",310,630);
   text("- To return back to the menu when playing, press 'backspace.'",310,660);
-  text("Now you're set to play!",495,710);
+  text("CHEATS:",310,710);
+  text("- 'R' to show bombs",310,740);
+  text("- 'E' to show safe squares",310,770);
+  text("Now you're set to play!",495,830);
 }
 
 void startGame(){
