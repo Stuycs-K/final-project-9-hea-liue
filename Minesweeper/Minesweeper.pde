@@ -18,6 +18,7 @@ private int highScore1 = 0;
 private int highScore2 = 0;
 private int highScore3 = 0;
 private boolean popUp;
+private boolean guide;
 
 void setup(){ //chooses difficulty and sets mines, rows, cols
   gameStart = true;
@@ -31,6 +32,7 @@ void setup(){ //chooses difficulty and sets mines, rows, cols
 
 void startScreen(){
   gameStart = true;
+  guide = false;
   size(1000,1000);
   fill(#7DCB79);
   square(0,0,1000);
@@ -47,6 +49,73 @@ void startScreen(){
   text("EASY",width/2-55,405);
   text("MEDIUM",width/2-85,555);
   text("HARD",width/2-55,705);
+}
+
+void rules(){
+  fill(#7DCB79);
+  square(0,0,1000);
+  fill(#61FF5A);
+  rect(50,50,200,75,20);
+  fill(0);
+  text("RETURN",60,105);
+  
+  fill(#DBC8AC);
+  rect(300,120,600,620,20);
+  square(380,380,30);
+  square(410,380,30);
+  square(440,380,30);
+  square(380,410,30);
+  square(380,440,30);
+  square(410,410,30);
+  square(410,440,30);
+  square(440,410,30);
+  square(440,440,30);
+  
+  square(560,380,30);
+  square(590,380,30);
+  square(620,380,30);
+  square(560,410,30);
+  square(560,440,30);
+  square(590,410,30);
+  square(620,410,30);
+  square(590,440,30);
+  square(620,440,30);
+  square(650,380,30);
+  square(650,410,30);
+  square(650,440,30);
+  square(560,470,30);
+  square(590,470,30);
+  square(620,470,30);
+  square(650,470,30);
+  
+  fill(0);
+  circle(395,395,20);
+  circle(455,425,20);
+  circle(575,425,20);
+  circle(575,455,20);
+  circle(635,395,20);
+  circle(605,485,20);
+  circle(665,485,20);
+  
+  textSize(20);
+  text("2",420,433);
+  text("3",600,433);
+  text("1",630,433);
+  text("3",600,463);
+  text("2",630,463);
+  text("Minesweeper is a single-player logic game where the player deduces ",310,150);
+  text("all safe squares in the least amount of time.",310,180);
+  text("- The first click will always be a safe square.",310,220);
+  text("- Clicking on a mine will end the game.",310,250);
+  text("- Safe squares will either be blank or have a number.",310,280);
+  text("- The number tells you how many mines are around it.",330,310);
+  text("- If it is blank, there are no mines around it.",330,340);
+  text("* This is only an example, as bombs are randomly placed.",350,530);
+  text("- Right-click to place down a flag to mark where you think a mine is.",310,570);
+  text("- This is shown as a red circle, right-click to remove it.",330,600);
+  text("- The lower the time, the better the score.",310,630);
+  text("- To return back to the menu when playing, press 'backspace.'",310,660);
+  text("Now you're set to play!",495,710);
 }
 
 void startGame(){
@@ -115,7 +184,7 @@ void keyPressed(){
     }
   }
   if (keyCode == BACKSPACE){ // Enter button restarts the game when it ends
-    if(!gameEnd){
+    if(!gameEnd && !guide){
       setup();
     }
   }
@@ -158,21 +227,33 @@ void mousePressed(){
       flag(x,y); //flags the square if right click
     }
   }
-  else if (gameStart == true){
-    if(mouseButton == LEFT){
-      if(x >= width/2-150 && x <= width/2+150){
-        if(y >= 350 && y <= 425){
-          DIFFICULTY = 1;
-          startGame();
+  else if (gameStart){
+    if(!guide){
+      if(mouseButton == LEFT){
+        if(x >= width/2-150 && x <= width/2+150){
+          if(y >= 350 && y <= 425){
+            DIFFICULTY = 1;
+            startGame();
+          }
+          if(y >= 500 && y <= 575){
+            DIFFICULTY = 2;
+            startGame();
+          }
+          if(y >= 650 && y <= 725){
+            DIFFICULTY = 3;
+            startGame();
+          }
         }
-        if(y >= 500 && y <= 575){
-          DIFFICULTY = 2;
-          startGame();
+        if(x >= width/2-200 && x <= width/2+200 && y >= 200 && y <= 275){
+          guide = true;
+          rules();
         }
-        if(y >= 650 && y <= 725){
-          DIFFICULTY = 3;
-          startGame();
-        }
+      }
+    }
+    else{
+      if(x >= 50 && x <= 250 && y >= 50 && y <= 125){
+        guide = false;
+        startScreen();
       }
     }
   }
