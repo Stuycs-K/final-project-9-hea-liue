@@ -15,5 +15,9 @@ Minesweeper - is a single-player game where the objective is to reveal all the â
 4. left click any spots that you believe to be safe squares to dig and reveal that spot
 5. to win, you reveal all the safe squares without hitting a mines
 6. to lose, you dig a mine before all safe squares
+7. to return to main menu, press backspace
 7. your score is recorded in the top left (like golf, the lower the better)
 8. try different difficulties and try to beat your high score!
+Cheats:
+  1. to reveal the bombs, hold 'R'
+  2. to reveal the safe squares with bombs nearby, hold 'E'
